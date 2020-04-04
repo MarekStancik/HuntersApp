@@ -1,0 +1,33 @@
+<div fxLayout="column" fxLayoutAlign="center center">
+    <h2>Zápis v dátume: 29.3.2020</h2>
+    <form [formGroup]="checkInForm" (ngSubmit)="save()" class="edit-form">
+    
+        <mat-form-field>
+            <mat-label for="name">Lokácia</mat-label>
+            <input matInput id="name" name="name" type="text" formControlName="location">
+            <!--<mat-error *ngIf="checkInForm.get('displayName').invalid">{{getNameError()}}</mat-error>-->
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label for="age">Hosť</mat-label>
+            <input matInput id="age" name="age" type="text" formControlName="age">
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label for="photo">Spôsob polovania</mat-label>
+            <input matInput id="photo" name="photo" type="text" formControlName="photoURL">
+        </mat-form-field>
+        <mat-label style="margin-bottom: 5px;">Čas</mat-label>
+        <mat-form-field>
+            <mat-label>Od:</mat-label>
+           <input type="time" matInput formControlName="timeFrom">
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Do:</mat-label>
+            <input type="time" matInput formControlName="timeTo">
+        </mat-form-field>
+
+        <button type="submit" mat-raised-button color="primary" fxFill>Zapísať</button>
+    </form>
+</div>

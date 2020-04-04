@@ -1,36 +1,95 @@
-<div fxLayout="column" fxLayoutAlign="center center" fxFill>
-    <mat-form-field>
-    <mat-label>Filter</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium">
-    </mat-form-field>
-    
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-    
-    <!-- Position Column -->
-    <ng-container matColumnDef="position">
-        <th mat-header-cell *matHeaderCellDef> No. </th>
-        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
-    </ng-container>
-    
-    <!-- Name Column -->
-    <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> Name </th>
-        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-    </ng-container>
-    
-    <!-- Weight Column -->
-    <ng-container matColumnDef="weight">
-        <th mat-header-cell *matHeaderCellDef> Weight </th>
-        <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
-    </ng-container>
-    
-    <!-- Symbol Column -->
-    <ng-container matColumnDef="symbol">
-        <th mat-header-cell *matHeaderCellDef> Symbol </th>
-        <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
-    </ng-container>
-    
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
+<div fxLayout="row" fxFlexOffset="10" fxFlex="80">
+    <div fxLayout="column" fxLayoutAlign="center" fxFill>
+        <h2>Prehľad zápisov na zvolený dátum</h2>
+        <div fxLayout="row">
+            <mat-form-field style="margin-right: 20px;">
+                <mat-label>Filter</mat-label>
+                <input matInput (keyup)="applyFilter($event)">
+            </mat-form-field>
+            
+            <mat-form-field>
+                <mat-label>Vyberte dátum</mat-label>
+                <input matInput [matDatepicker]="picker">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+        </div>
+        
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+        
+            <!-- Position Column -->
+            <ng-container matColumnDef="locationName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Lokácia </th>
+                <td mat-cell *matCellDef="let element"> {{element.locationName}} </td>
+            </ng-container>
+            
+            <!-- Name Column -->
+            <ng-container matColumnDef="hunterName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Meno Polovníka </th>
+                <td mat-cell *matCellDef="let element"> {{element.hunterName}} </td>
+            </ng-container>
+            
+            <!-- Weight Column -->
+            <ng-container matColumnDef="hunterHost">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Meno Hosťa </th>
+                <td mat-cell *matCellDef="let element"> {{element.hunterHost}} </td>
+            </ng-container>
+            
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="huntingType">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Spôsob polovania </th>
+                <td mat-cell *matCellDef="let element"> {{element.huntingType}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="animalGender">
+                <th mat-header-cell *matHeaderCellDef> Pohlavie </th>
+                <td mat-cell *matCellDef="let element"> {{element.animalGender}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="animalCount">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Počet </th>
+                <td mat-cell *matCellDef="let element"> {{element.animalCount}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="time">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Čas </th>
+                <td mat-cell *matCellDef="let element"> {{element.time}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="reasonOfDeath">
+                <th mat-header-cell *matHeaderCellDef> Dôvod úhynu </th>
+                <td mat-cell *matCellDef="let element"> {{element.reasonOfDeath}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="markNumber">
+                <th mat-header-cell *matHeaderCellDef> Číslo značky </th>
+                <td mat-cell *matCellDef="let element"> {{element.markNumber}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="note">
+                <th mat-header-cell *matHeaderCellDef> Poznámka </th>
+                <td mat-cell *matCellDef="let element"> {{element.note}} </td>
+            </ng-container>
+            
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                (click)="getRecord(row)"
+                [ngClass]="{'highlight': selectedRow == row}"
+                style="cursor: pointer;"></tr>
+        </table>
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator> 
+
+        <div fxLayout="row" fxLayoutAlign="space-between">
+            <button mat-raised-button color="primary" [routerLink]="['/checkin']" routerLinkActive="router-link-active" >Zapísať sa</button>    
+            <div *ngIf="selectedRow">
+                <button mat-raised-button 
+                    color="accent" 
+                    [routerLink]="['/edit']" 
+                    routerLinkActive="router-link-active" 
+                    style="margin-right: 10px;">Upraviť</button>
+                <button mat-raised-button color="warn" (click)="deleteRecord(selectedRow)">Vymazať</button>
+            </div>
+        </div>
+    </div>
 </div>

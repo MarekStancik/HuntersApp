@@ -18,6 +18,7 @@ import { MatToolbarModule} from '@angular/material/toolbar'
 import { MatButtonModule } from '@angular/material/button';
 import { CheckInViewComponent } from './check-in-view/check-in-view.component';
 import { EditRecordViewComponent } from './edit-record-view/edit-record-view.component';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { EditRecordViewComponent } from './edit-record-view/edit-record-view.com
     MatSortModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatSelectModule,
     FormsModule,
     ReactiveFormsModule,
     MatToolbarModule,

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { TripService } from '../trips/shared/trip.service';
 
 @Component({
   selector: 'app-edit-record-view',
@@ -20,7 +21,7 @@ export class EditRecordViewComponent implements OnInit {
     timeTo: new FormControl('')
   });
 
-  constructor() { }
+  constructor(private tripService: TripService) { }
 
   ngOnInit(): void {
   }

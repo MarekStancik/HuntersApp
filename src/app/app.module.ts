@@ -16,9 +16,14 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatToolbarModule} from '@angular/material/toolbar'
 import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CheckInViewComponent } from './check-in-view/check-in-view.component';
 import { EditRecordViewComponent } from './edit-record-view/edit-record-view.component';
 import { MatSelectModule } from '@angular/material/select';
+import { MatListModule } from '@angular/material/list';
+import { AdminMainViewComponent } from './admin/admin-main-view/admin-main-view.component';
+import { AdminUsersViewComponent } from './admin/admin-users-view/admin-users-view.component';
+import { AdminLocationsViewComponent } from './admin/admin-locations-view/admin-locations-view.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +31,10 @@ import { MatSelectModule } from '@angular/material/select';
     MainViewComponent,
     NavbarComponent,
     CheckInViewComponent,
-    EditRecordViewComponent
+    EditRecordViewComponent,
+    AdminMainViewComponent,
+    AdminUsersViewComponent,
+    AdminLocationsViewComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +48,9 @@ import { MatSelectModule } from '@angular/material/select';
     MatSortModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatProgressSpinnerModule,
     MatSelectModule,
+    MatListModule,
     FormsModule,
     ReactiveFormsModule,
     MatToolbarModule,

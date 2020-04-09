@@ -1,0 +1,10 @@
+<h5>Locations</h5>
+<mat-selection-list role="list">
+    <mat-list-option *ngFor="let loc of locations$ | async" role="listitem">
+        {{loc.name}}
+    </mat-list-option>
+    <mat-list-item>
+        <input matInput type="text" name="" id="" (keyup.enter)="addLocation(newLocation)" [(ngModel)]="newLocation">
+        <button (click)="addLocation(newLocation)">add</button>
+    </mat-list-item>
+</mat-selection-list>

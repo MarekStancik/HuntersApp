@@ -24,7 +24,11 @@ export class LocationService {
     return of(this.collection);
   }
 
-  add(loc :LocationModel): Observable<LocationModel>{
+  add(locName :string): Observable<LocationModel>{
+    const loc: LocationModel = {
+      id: '2',
+      name: locName
+    }
     this.collection.push(loc);
     return of(loc);
   }

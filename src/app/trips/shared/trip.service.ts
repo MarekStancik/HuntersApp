@@ -14,9 +14,8 @@ export class TripService {
 
   constructor() { }
 
-  add(trip: TripModel){
+  add(trip: TripModel): Observable<TripModel>{
     this.collection.push(trip);
-    console.log(this.collection);
-    
+    return of(trip);
   }
 }

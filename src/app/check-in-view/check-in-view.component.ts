@@ -6,6 +6,8 @@ import { Observable } from 'rxjs';
 import { LocationService } from '../locations/shared/location.service';
 import { TripModel } from '../trips/shared/trip-model';
 import { UserService } from '../users/shared/user.service';
+import { catchError } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-check-in-view',
@@ -22,9 +24,12 @@ export class CheckInViewComponent implements OnInit {
     timeTo: new FormControl('')
   });
 
-  locations$ : Observable<LocationModel[]>;//LocationModel[];
+  locations$ : Observable<LocationModel[]>;
 
-  constructor(private tripService: TripService,private locService: LocationService,private userService: UserService) { }
+  constructor(private tripService: TripService,
+    private locService: LocationService,
+    private userService: UserService,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.locations$ = this.locService.readAll();
@@ -40,6 +45,17 @@ export class CheckInViewComponent implements OnInit {
       timeTo: val.timeTo,
       guest: val.guest
     };
-    this.tripService.add(trip);
+    this.tripService.add(trip)
+      .pipe(
+        catchError(err => {
+          alert(err)
+          return null;
+        })
+      ).subscribe(data => {
+        if(data !== null){
+          alert('Záznam bol zaevidovaný')
+          this.router.navigate(['']);
+        }
+      })
   }
 }

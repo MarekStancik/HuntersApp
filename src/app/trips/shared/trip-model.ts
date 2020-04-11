@@ -5,9 +5,8 @@ import { Time } from '@angular/common';
 export interface TripModel {
     hunter: UserModel;
     location: LocationModel;
-    date: Date;
-    timeFrom: Time;
-    timeTo: Time;
+    timeFrom: Date;
+    timeTo: Date;
     guest?: string;
     huntingType?: HuntingType;
     animalGender?: AnimalGender;

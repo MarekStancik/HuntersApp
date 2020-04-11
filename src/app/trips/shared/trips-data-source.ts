@@ -1,14 +1,17 @@
 import { TripModel } from './trip-model';
 import { DataSource, CollectionViewer } from '@angular/cdk/collections';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { catchError, finalize } from 'rxjs/operators';
+import { catchError, finalize, tap } from 'rxjs/operators';
 import { TripService } from './trip.service';
 
 export class TripsDataSource implements DataSource<TripModel> {
     private tripsSubject = new BehaviorSubject<TripModel[]>([]);
     private loadingSubject = new BehaviorSubject<boolean>(false);
+    private countSubject = new BehaviorSubject<number>(0);
 
     public loading$ = this.loadingSubject.asObservable();
+
+    public totalCount$ = this.countSubject.asObservable();
 
     constructor(private tripsService: TripService) {}
 
@@ -19,6 +22,7 @@ export class TripsDataSource implements DataSource<TripModel> {
     disconnect(collectionViewer: CollectionViewer): void {
         this.tripsSubject.complete();
         this.loadingSubject.complete();
+        this.countSubject.complete();
     }
 
     loadTrips(date: Date,filter: string,sortDirection = "asc",pageIndex = 0,pageSize = 5) {
@@ -27,9 +31,12 @@ export class TripsDataSource implements DataSource<TripModel> {
 
         this.tripsService.readTrips(date,filter,sortDirection,pageIndex,pageSize)
             .pipe(
-                catchError(() => of([])),
+                catchError(() => of({trips: [],totalLength: 0})),
                 finalize(() => this.loadingSubject.next(false))
             ).
-            subscribe(trip => this.tripsSubject.next(trip));
+            subscribe(collection =>{ 
+                this.tripsSubject.next(collection.trips),
+                this.countSubject.next(collection.totalLength);
+            });
     }     
 }

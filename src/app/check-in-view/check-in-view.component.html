@@ -1,13 +1,6 @@
 <div fxLayout="column" fxLayoutAlign="center center">
     <h2>Zápis novej polovačky</h2>
     <form [formGroup]="checkInForm" (ngSubmit)="save()" class="edit-form">
-    
-        <mat-form-field>
-            <mat-label>Dátum</mat-label>
-            <input matInput [matDatepicker]="picker" formControlName="date">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
 
         <mat-form-field>
             <mat-select formControlName="location" placeholder="Lokácia">
@@ -26,15 +19,27 @@
             <mat-label for="huntingType">Spôsob polovania</mat-label>
             <input matInput id="huntingType" name="huntingType" type="text" formControlName="huntingType">
         </mat-form-field>
-        <mat-label style="margin-bottom: 5px;">Čas</mat-label>
+        <mat-label style="margin-bottom: 5px;">Od:</mat-label>
         <mat-form-field>
-            <mat-label>Od:</mat-label>
-           <input type="time" matInput formControlName="timeFrom">
+            <mat-label>Dátum</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="dateFrom">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
-
         <mat-form-field>
-            <mat-label>Do:</mat-label>
-            <input type="time" matInput formControlName="timeTo">
+            <mat-label>Čas</mat-label>
+            <input matInput type="time" formControlName="timeFrom">
+        </mat-form-field>
+        <mat-label style="margin-bottom: 5px;">Do:</mat-label>
+        <mat-form-field>
+            <mat-label>Dátum</mat-label>
+            <input matInput [matDatepicker]="picker1" formControlName="dateTo">
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Čas</mat-label>
+            <input matInput type="time" formControlName="timeTo">
         </mat-form-field>
 
         <button type="submit" mat-raised-button color="primary" fxFill>Zapísať</button>

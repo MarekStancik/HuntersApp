@@ -17,12 +17,13 @@ import { Router } from '@angular/router';
 export class CheckInViewComponent implements OnInit {
 
   checkInForm = new FormGroup({
-    date: new FormControl(new Date()),
     location: new FormControl(''),
     huntingType: new FormControl(''),
     guest: new FormControl(''),
     timeFrom: new FormControl(''),
-    timeTo: new FormControl('')
+    timeTo: new FormControl(''),
+    dateFrom: new FormControl(new Date()),
+    dateTo: new FormControl(new Date())
   });
 
   locations$ : Observable<LocationModel[]>;
@@ -34,19 +35,26 @@ export class CheckInViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.locations$ = this.locService.readAll();
-    this.checkInForm.setControl('date',new FormControl(this.tripService.dateFilter));
+    this.checkInForm.setControl('dateFrom',new FormControl(this.tripService.dateFilter));
+    this.checkInForm.setControl('dateTo',new FormControl(this.tripService.dateFilter));
   }
 
   save(){
     const val = this.checkInForm.value;
+    const from = new Date(val.dateFrom);    
+    from.setHours(val.timeFrom.substr(0,2),val.timeFrom.substr(3,2),0,0);
+
+    const to = new Date(val.dateTo);
+    to.setHours(val.timeTo.substr(0,2),val.timeTo.substr(3,2),0,0);
+
     let trip: TripModel = {
-      date: new Date(),
       hunter: this.userService.getCurrentUser(),
       location: val.location,
-      timeFrom: val.timeFrom,
-      timeTo: val.timeTo,
+      timeFrom: from,
+      timeTo: to,
       guest: val.guest
     };
+    
     this.tripService.add(trip)
       .pipe(
         catchError(err => {

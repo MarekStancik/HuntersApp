@@ -7,8 +7,6 @@ import { TripService } from '../trips/shared/trip.service';
 import { merge } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { UserService } from '../users/shared/user.service';
-import { UserModel } from '../users/shared/user-model';
-import { Timestamp } from 'rxjs/internal/operators/timestamp';
 
 @Component({
   selector: 'app-main-view',
@@ -26,6 +24,11 @@ export class MainViewComponent implements AfterViewInit,OnInit {
   set filter(val:string){
     this._filter = val.trim().toLowerCase();
     this.paginator.firstPage();
+    this.loadTripsPage();
+  }
+
+  get filter(){
+    return this._filter;
   }
 
   get selectedDate(){
@@ -34,6 +37,8 @@ export class MainViewComponent implements AfterViewInit,OnInit {
 
   set selectedDate(date :Date){
     this.tripsService.dateFilter = date;
+    this.paginator.firstPage();
+    this.loadTripsPage();
   }
 
   constructor(private tripsService: TripService,private userService: UserService) { }
@@ -42,43 +47,38 @@ export class MainViewComponent implements AfterViewInit,OnInit {
     const date = new Date(); 
     const seed: TripModel[] = [
       {
-        date: new Date(),
         hunter: this.userService.currentUser,
         location: {id: '1',name: 'Jazero'},
-        timeFrom: {hours: 10,minutes: 30},
-        timeTo: {hours: 12,minutes: 35},
+        timeFrom: new Date(),
+        timeTo: new Date(),
         guest: 'Peto'
       },
       {
-        date: new Date(),
         hunter: this.userService.currentUser,
         location: {id: '1',name: 'Jazero'},
-        timeFrom: {hours: 10,minutes: 30},
-        timeTo: {hours: 12,minutes: 35},
+        timeFrom: new Date(),
+        timeTo: new Date(),
         guest: 'Jozo'
       },
       {
-        date: new Date(),
         hunter: this.userService.currentUser,
         location: {id: '1',name: 'Jazero'},
-        timeFrom: {hours: 10,minutes: 30},
-        timeTo: {hours: 12,minutes: 35},
+        timeFrom: new Date(),
+        timeTo: new Date(),
         guest: 'Jano'
       },
       {
-        date: new Date(),
         hunter: this.userService.currentUser,
         location: {id: '1',name: 'Jazero'},
-        timeFrom: {hours: 10,minutes: 30},
-        timeTo: {hours: 12,minutes: 35},
+        timeFrom: new Date(),
+        timeTo: new Date(),
         guest: 'Fero'
       },
       {
-        date: new Date(),
         hunter: this.userService.currentUser,
         location: {id: '2',name: 'Kostolne'},
-        timeFrom: {hours: 10,minutes: 30},
-        timeTo: {hours: 12,minutes: 35}
+        timeFrom: new Date(),
+        timeTo: new Date(),
       }
     ];
     seed.forEach(trip => this.tripsService.add(trip));
@@ -119,6 +119,34 @@ export class MainViewComponent implements AfterViewInit,OnInit {
       this.tripsService.deleteTrip(row);
       this.loadTripsPage();
     }
+  }
+
+  private toTimeStr(date: Date): string{
+    let rval = '';
+    if(date.getHours() < 10)
+      rval = '0' + date.getHours();
+    else
+      rval += date.getHours();
+
+    rval += ':';
+
+    if(date.getMinutes() < 10)
+      rval += '0' + date.getMinutes();
+    else
+      rval += date.getMinutes();      
+    return rval;
+  }
+
+  asDateString(row: TripModel):string{
+    if(row){
+      const date = row.timeFrom;
+      const date2 = row.timeTo;
+      if(date.toLocaleDateString().localeCompare(date2.toLocaleDateString()) === 0){
+        return `${date.toLocaleDateString()} ${this.toTimeStr(date)} - ${this.toTimeStr(date2)}`;
+      }
+      return  `${date.toLocaleDateString()} ${this.toTimeStr(date)} - ${date2.toLocaleDateString()} ${this.toTimeStr(date2)}`;
+    }
+    return '';
   }
 
   canEdit(row: TripModel):boolean{

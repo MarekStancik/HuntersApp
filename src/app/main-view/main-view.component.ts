@@ -6,6 +6,9 @@ import { TripsDataSource } from '../trips/shared/trips-data-source';
 import { TripService } from '../trips/shared/trip.service';
 import { merge } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { UserService } from '../users/shared/user.service';
+import { UserModel } from '../users/shared/user-model';
+import { Timestamp } from 'rxjs/internal/operators/timestamp';
 
 @Component({
   selector: 'app-main-view',
@@ -18,7 +21,6 @@ export class MainViewComponent implements AfterViewInit,OnInit {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   selectedRow: TripModel;
-  selectedDate: Date = new Date();
   private _filter: string= '';
 
   set filter(val:string){
@@ -26,9 +28,60 @@ export class MainViewComponent implements AfterViewInit,OnInit {
     this.paginator.firstPage();
   }
 
-  constructor(private tripsService: TripService) { }
+  get selectedDate(){
+    return this.tripsService.dateFilter;
+  }
+
+  set selectedDate(date :Date){
+    this.tripsService.dateFilter = date;
+  }
+
+  constructor(private tripsService: TripService,private userService: UserService) { }
 
   ngOnInit() {
+    const date = new Date(); 
+    const seed: TripModel[] = [
+      {
+        date: new Date(),
+        hunter: this.userService.currentUser,
+        location: {id: '1',name: 'Jazero'},
+        timeFrom: {hours: 10,minutes: 30},
+        timeTo: {hours: 12,minutes: 35},
+        guest: 'Peto'
+      },
+      {
+        date: new Date(),
+        hunter: this.userService.currentUser,
+        location: {id: '1',name: 'Jazero'},
+        timeFrom: {hours: 10,minutes: 30},
+        timeTo: {hours: 12,minutes: 35},
+        guest: 'Jozo'
+      },
+      {
+        date: new Date(),
+        hunter: this.userService.currentUser,
+        location: {id: '1',name: 'Jazero'},
+        timeFrom: {hours: 10,minutes: 30},
+        timeTo: {hours: 12,minutes: 35},
+        guest: 'Jano'
+      },
+      {
+        date: new Date(),
+        hunter: this.userService.currentUser,
+        location: {id: '1',name: 'Jazero'},
+        timeFrom: {hours: 10,minutes: 30},
+        timeTo: {hours: 12,minutes: 35},
+        guest: 'Fero'
+      },
+      {
+        date: new Date(),
+        hunter: this.userService.currentUser,
+        location: {id: '2',name: 'Kostolne'},
+        timeFrom: {hours: 10,minutes: 30},
+        timeTo: {hours: 12,minutes: 35}
+      }
+    ];
+    seed.forEach(trip => this.tripsService.add(trip));
     this.dataSource = new TripsDataSource(this.tripsService);
     this.loadTripsPage();
   }
@@ -62,9 +115,15 @@ export class MainViewComponent implements AfterViewInit,OnInit {
   }
 
   deleteRecord(row: TripModel){
-    if(confirm("Určite chcete vymazať svoj záznam?")){
-
+    if(this.canEdit(row) && confirm("Určite chcete vymazať svoj záznam?")){
+      this.tripsService.deleteTrip(row);
+      this.loadTripsPage();
     }
+  }
+
+  canEdit(row: TripModel):boolean{
+    const user = this.userService.currentUser;
+    return row && user && (row.hunter === user || this.userService.isAdmin(user));
   }
 
 }

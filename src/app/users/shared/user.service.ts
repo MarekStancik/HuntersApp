@@ -11,9 +11,14 @@ export class UserService {
 
   passwords = new Map<string,string>();
 
-  currentUser : UserModel = {id: '1',name: 'karol',roles: {hunter: true}};
+  currentUser : UserModel;
 
-  constructor() { }
+  constructor() { 
+    const admin = {id: '1',name: 'karol',roles: {admin: true}};
+    this.collection.push(admin);
+    this.passwords.set(admin.name,'Heslo123');
+    this.currentUser = admin;
+  }
 
   getCurrentUser(): UserModel{
     return this.currentUser;
@@ -30,13 +35,33 @@ export class UserService {
     return of(user);
   }
 
-  login(name: string, pass: string){
+  login(name: string, pass: string): Promise<Boolean>{
     if(this.passwords.get(name) === pass){
       for (const user of this.collection) {
         if(user.name === name){
           this.currentUser = user;
-          return true;
+          return Promise.resolve(true);
         }
+      }
+    }
+    return Promise.reject({message:'Incorrect email or password'});
+  }
+
+  signOut(){
+    this.currentUser = null;
+  }
+
+  isAdmin(user: UserModel){
+    const allowed = ['admin'];
+    return this.checkAuthorization(user,allowed);
+  }
+
+  private checkAuthorization(user: UserModel,allowedRoles: string[]): boolean{
+    if(!user) return false;
+
+    for(const role of allowedRoles){
+      if(user.roles[role]){
+        return true;
       }
     }
     return false;

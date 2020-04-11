@@ -6,7 +6,25 @@ import { Observable, of } from 'rxjs';
   providedIn: 'root'
 })
 export class TripService {
+
+  deleteTrip(row: TripModel) {
+    const index = this.collection.indexOf(row);
+    if(index > -1)
+      this.collection.splice(index,1);      
+  }
+
+  private _dateFilter: Date = new Date();
+
+  get dateFilter(){
+    return this._dateFilter;
+  }
+
+  set dateFilter(date: Date){
+    this._dateFilter = date;
+  }
+
   readTrips(date: Date, filter: string, sortDirection: string, pageIndex: number, pageSize: number) :  Observable<TripModel[]> {
+    this._dateFilter = date;
     return of(this.collection);
   }
 

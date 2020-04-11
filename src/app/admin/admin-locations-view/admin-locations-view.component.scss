@@ -1,0 +1,16 @@
+mat-list mat-list-item{
+    cursor: pointer;
+}
+
+mat-list mat-list-item:hover{
+    background: rosybrown;
+}
+
+mat-list mat-list-item.active{
+    background-color: salmon;
+}
+
+mat-list mat-list-item:last-child{
+    cursor: auto;
+    background: none;
+}

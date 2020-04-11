@@ -12,6 +12,10 @@ export class AdminLocationsViewComponent implements OnInit {
 
   newLocation: string;
 
+  updatedName: string;
+
+  selectedLoc: LocationModel;
+
   locations$: Observable<LocationModel[]>;
 
   constructor(private locationService: LocationService) { }
@@ -23,6 +27,11 @@ export class AdminLocationsViewComponent implements OnInit {
   addLocation(locName: string){
     this.locationService.add(locName);
     this.newLocation = '';
+  }
+
+  updateLocation(loc: LocationModel,newName: string){
+    loc.name = newName;
+    this.locationService.update(loc);
   }
 
 }

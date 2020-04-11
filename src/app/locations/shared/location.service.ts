@@ -7,6 +7,10 @@ import { LocationModel } from './location-model';
 })
 export class LocationService {
 
+  update(loc: LocationModel) {
+    //throw new Error("Method not implemented.");
+  }
+
   collection: LocationModel[] = [
     {
       id: '1',

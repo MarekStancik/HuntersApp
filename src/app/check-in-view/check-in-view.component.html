@@ -1,7 +1,14 @@
 <div fxLayout="column" fxLayoutAlign="center center">
-    <h2>Zápis v dátume: 29.3.2020</h2>
+    <h2>Zápis novej polovačky</h2>
     <form [formGroup]="checkInForm" (ngSubmit)="save()" class="edit-form">
     
+        <mat-form-field>
+            <mat-label>Dátum</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="date">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
         <mat-form-field>
             <mat-select formControlName="location" placeholder="Lokácia">
                 <mat-option *ngFor="let loc of locations$ | async" [value]="loc">

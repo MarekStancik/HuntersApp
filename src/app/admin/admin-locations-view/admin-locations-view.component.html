@@ -1,10 +1,19 @@
-<h5>Locations</h5>
-<mat-selection-list role="list">
-    <mat-list-option *ngFor="let loc of locations$ | async" role="listitem">
-        {{loc.name}}
-    </mat-list-option>
-    <mat-list-item>
-        <input matInput type="text" name="" id="" (keyup.enter)="addLocation(newLocation)" [(ngModel)]="newLocation">
-        <button (click)="addLocation(newLocation)">add</button>
-    </mat-list-item>
-</mat-selection-list>
+<div fxLayout="column" fxLayoutAlign="space-around center">
+    <h5>Lokácie</h5>
+    <mat-list role="list">
+        <mat-list-item *ngFor="let loc of locations$ | async" 
+            role="listitem"
+            [class.active]="selectedLoc === loc"
+            (click)="selectedLoc = loc">
+            {{loc.name}}
+        </mat-list-item>
+        <mat-list-item>
+            <input matInput type="text" (keyup.enter)="addLocation(newLocation)" [(ngModel)]="newLocation">
+            <button (click)="addLocation(newLocation)">Pridať</button>
+        </mat-list-item>
+    </mat-list>
+    <div *ngIf="selectedLoc">
+        <input matInput type="text" (keyup.enter)="updateLocation(selectedLoc,updatedName)" [(ngModel)]="updatedName">
+        <button>Premenovať</button>
+    </div>
+</div>

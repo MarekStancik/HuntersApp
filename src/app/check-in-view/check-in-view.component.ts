@@ -17,6 +17,7 @@ import { Router } from '@angular/router';
 export class CheckInViewComponent implements OnInit {
 
   checkInForm = new FormGroup({
+    date: new FormControl(new Date()),
     location: new FormControl(''),
     huntingType: new FormControl(''),
     guest: new FormControl(''),
@@ -33,6 +34,7 @@ export class CheckInViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.locations$ = this.locService.readAll();
+    this.checkInForm.setControl('date',new FormControl(this.tripService.dateFilter));
   }
 
   save(){

@@ -24,6 +24,8 @@ import { MatListModule } from '@angular/material/list';
 import { AdminMainViewComponent } from './admin/admin-main-view/admin-main-view.component';
 import { AdminUsersViewComponent } from './admin/admin-users-view/admin-users-view.component';
 import { AdminLocationsViewComponent } from './admin/admin-locations-view/admin-locations-view.component';
+import { LoginViewComponent } from './users/login-view/login-view.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,8 @@ import { AdminLocationsViewComponent } from './admin/admin-locations-view/admin-
     EditRecordViewComponent,
     AdminMainViewComponent,
     AdminUsersViewComponent,
-    AdminLocationsViewComponent
+    AdminLocationsViewComponent,
+    LoginViewComponent
   ],
   imports: [
     BrowserModule,
@@ -54,6 +57,7 @@ import { AdminLocationsViewComponent } from './admin/admin-locations-view/admin-
     FormsModule,
     ReactiveFormsModule,
     MatToolbarModule,
+    MatDialogModule,
   ],
   exports:[
     

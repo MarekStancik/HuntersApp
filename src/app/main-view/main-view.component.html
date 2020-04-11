@@ -57,7 +57,9 @@
 
             <ng-container matColumnDef="time">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Čas </th>
-                <td mat-cell *matCellDef="let element"> {{element.timeFrom}} - {{element.timeTo}} </td>
+                <td mat-cell *matCellDef="let element"> 
+                    {{element.timeFrom.hours + ':' + element.timeFrom.minutes}} - {{element.timeTo.hours + ':' + element.timeTo.minutes}} 
+                </td>
             </ng-container>
 
             <ng-container matColumnDef="reasonOfDeath">
@@ -86,7 +88,7 @@
 
         <div fxLayout="row" fxLayoutAlign="space-between">
             <button mat-raised-button color="primary" [routerLink]="['/checkin']" routerLinkActive="router-link-active" >Zapísať sa</button>    
-            <div *ngIf="selectedRow">
+            <div *ngIf="canEdit(selectedRow)">
                 <button mat-raised-button 
                     color="accent" 
                     [routerLink]="['/edit']" 

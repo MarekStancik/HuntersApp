@@ -109,9 +109,7 @@ export class MainViewComponent implements AfterViewInit,OnInit {
   }
 
   displayedColumns: string[] = [
-    'locationName', 'hunterName', 'hunterHost','time',
-    /*'huntingType','time','animalGender',
-    'animalCount','reasonOfDeath','markNumber',*/'note'
+    'locationName', 'hunterName', 'hunterHost','time','note'
   ];
 
   dataSource : TripsDataSource; 
@@ -159,6 +157,10 @@ export class MainViewComponent implements AfterViewInit,OnInit {
   canEdit(row: TripModel):boolean{
     const user = this.userService.currentUser;
     return row && user && (row.hunter === user || this.userService.isAdmin(user));
+  }
+
+  tripToString(trip: TripModel): string {
+    return `Spôsob polovania: ${trip.huntingType} Pohlavie zvieraťa: ${trip.animalGender} Počet zvierat: ${trip.animalCount} Dôvod úmrtia: ${trip.reasonOfDeath} Číslo značky: ${trip.markNumber}`;
   }
 
 }

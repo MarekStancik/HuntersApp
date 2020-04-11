@@ -1,27 +1,73 @@
 <div fxLayout="column" fxLayoutAlign="center center">
-    <h2><p>Zmena zápisu<br>Dátum: date<br>Lokácia: location</p></h2>
+    <h2><p>Zmena zápisu</h2>
     <form [formGroup]="editForm" (ngSubmit)="save()" class="edit-form">
 
         <mat-form-field>
-            <mat-label for="age">Hosť</mat-label>
-            <input matInput id="age" name="age" type="text" formControlName="age">
+            <mat-select formControlName="location" placeholder="Lokácia">
+                <mat-option *ngFor="let loc of locations$ | async" [value]="loc">
+                  {{loc.name}}
+                </mat-option>
+            </mat-select>
         </mat-form-field>
 
         <mat-form-field>
-            <mat-label for="photo">Spôsob polovania</mat-label>
-            <input matInput id="photo" name="photo" type="text" formControlName="photoURL">
+            <mat-label for="guest">Hosť</mat-label>
+            <input matInput id="guest" name="guest" type="text" formControlName="guest">
         </mat-form-field>
-        <mat-label style="margin-bottom: 5px;">Čas</mat-label>
+        <mat-label style="margin-bottom: 5px;">Od:</mat-label>
         <mat-form-field>
-            <mat-label>Od:</mat-label>
-           <input type="time" matInput formControlName="timeFrom">
+            <mat-label>Dátum</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="dateFrom">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Čas</mat-label>
+            <input matInput type="time" formControlName="timeFrom">
+        </mat-form-field>
+        <mat-label style="margin-bottom: 5px;">Do:</mat-label>
+        <mat-form-field>
+            <mat-label>Dátum</mat-label>
+            <input matInput [matDatepicker]="picker1" formControlName="dateTo">
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Čas</mat-label>
+            <input matInput type="time" formControlName="timeTo">
         </mat-form-field>
 
         <mat-form-field>
-            <mat-label>Do:</mat-label>
-            <input type="time" matInput formControlName="timeTo">
+            <mat-label for="huntingType">Spôsob polovania</mat-label>
+            <input matInput id="huntingType" name="huntingType" type="text" formControlName="huntingType">
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label for="animalGender">Pohlavie zvieraťa</mat-label>
+            <input matInput id="animalGender" name="animalGender" type="text" formControlName="animalGender">
+        </mat-form-field>
+        
+        <mat-form-field>
+            <mat-label for="animalCount">Počet zvierat</mat-label>
+            <input matInput id="animalCount" name="animalCount" type="number" formControlName="animalCount">
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label for="reasonOfDeath">Dôvod úhynu</mat-label>
+            <input matInput id="reasonOfDeath" name="reasonOfDeath" type="text" formControlName="reasonOfDeath">
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label for="markNumber">Číslo značky</mat-label>
+            <input matInput id="markNumber" name="markNumber" type="number" formControlName="markNumber">
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label for="note">Poznámka</mat-label>
+            <input matInput id="note" name="note" type="text" formControlName="note">
         </mat-form-field>
 
         <button type="submit" mat-raised-button color="primary" fxFill>Zapísať</button>
     </form>
+    <hr>
 </div>

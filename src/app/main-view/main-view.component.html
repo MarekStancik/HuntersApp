@@ -47,22 +47,6 @@
                     {{element.guest}} 
                 </mat-cell>
             </ng-container>
-            
-            <!-- 
-            <ng-container matColumnDef="huntingType">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Spôsob polovania </th>
-                <td mat-cell *matCellDef="let element"> {{element.huntingType}} </td>
-            </ng-container>
-
-            <ng-container matColumnDef="animalGender">
-                <th mat-header-cell *matHeaderCellDef> Pohlavie </th>
-                <td mat-cell *matCellDef="let element"> {{element.animalGender}} </td>
-            </ng-container>
-
-            <ng-container matColumnDef="animalCount">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Počet </th>
-                <td mat-cell *matCellDef="let element"> {{element.animalCount}} </td>
-            </ng-container>-->
 
             <ng-container matColumnDef="time">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Dátum a Čas</mat-header-cell>
@@ -71,17 +55,6 @@
                     {{asDateString(element)}}
                 </mat-cell>
             </ng-container>
-
-            <!--
-            <ng-container matColumnDef="reasonOfDeath">
-                <th mat-header-cell *matHeaderCellDef> Dôvod úhynu </th>
-                <td mat-cell *matCellDef="let element"> {{element.reasonOfDeath}} </td>
-            </ng-container>
-
-            <ng-container matColumnDef="markNumber">
-                <th mat-header-cell *matHeaderCellDef> Číslo značky </th>
-                <td mat-cell *matCellDef="let element"> {{element.markNumber}} </td>
-            </ng-container> -->
 
             <ng-container matColumnDef="note">
                 <mat-header-cell *matHeaderCellDef> Poznámka </mat-header-cell>
@@ -112,6 +85,10 @@
                     style="margin-right: 10px;">Upraviť</button>
                 <button mat-raised-button color="warn" (click)="deleteRecord(selectedRow)">Vymazať</button>
             </div>
+        </div>
+
+        <div *ngIf="selectedRow">
+            {{tripToString(selectedRow)}}
         </div>
     </div>
 </div>

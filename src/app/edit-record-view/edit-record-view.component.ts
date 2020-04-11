@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { TripService } from '../trips/shared/trip.service';
+import { Observable } from 'rxjs';
+import { LocationModel } from '../locations/shared/location-model';
+import { LocationService } from '../locations/shared/location.service';
 
 @Component({
   selector: 'app-edit-record-view',
@@ -10,20 +13,26 @@ import { TripService } from '../trips/shared/trip.service';
 export class EditRecordViewComponent implements OnInit {
 
   editForm = new FormGroup({
-    location: new FormControl('',[
-      Validators.required,
-      Validators.minLength(4)
-    ]),
-    photoURL: new FormControl(''),
-    age: new FormControl(''),
-    summary: new FormControl(''),
-    timeFrom: new FormControl(''),
-    timeTo: new FormControl('')
+      location: new FormControl(''),
+      huntingType: new FormControl(''),
+      guest: new FormControl(''),
+      timeFrom: new FormControl(''),
+      timeTo: new FormControl(''),
+      dateFrom: new FormControl(new Date()),
+      dateTo: new FormControl(new Date()),
+      animalGender: new FormControl(''),
+      animalCount: new FormControl(''),
+      markNumber: new FormControl(''),
+      reasonOfDeath: new FormControl(''),
+      note: new FormControl(''),
   });
 
-  constructor(private tripService: TripService) { }
+  locations$ : Observable<LocationModel[]>;
+
+  constructor(private tripService: TripService,private locService:LocationService) { }
 
   ngOnInit(): void {
+    this.locations$ = this.locService.readAll();
   }
 
   save(): void{

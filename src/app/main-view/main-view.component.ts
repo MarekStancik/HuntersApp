@@ -7,6 +7,7 @@ import { TripService } from '../trips/shared/trip.service';
 import { merge } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { UserService } from '../users/shared/user.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-main-view',
@@ -44,44 +45,9 @@ export class MainViewComponent implements AfterViewInit,OnInit {
   constructor(private tripsService: TripService,private userService: UserService) { }
 
   ngOnInit() {
-    const date = new Date(); 
-    const seed: TripModel[] = [
-      {
-        hunter: this.userService.currentUser,
-        location: {id: '1',name: 'Jazero'},
-        timeFrom: new Date(),
-        timeTo: new Date(),
-        guest: 'Peto'
-      },
-      {
-        hunter: this.userService.currentUser,
-        location: {id: '1',name: 'Jazero'},
-        timeFrom: new Date(),
-        timeTo: new Date(),
-        guest: 'Jozo'
-      },
-      {
-        hunter: this.userService.currentUser,
-        location: {id: '1',name: 'Jazero'},
-        timeFrom: new Date(),
-        timeTo: new Date(),
-        guest: 'Jano'
-      },
-      {
-        hunter: this.userService.currentUser,
-        location: {id: '1',name: 'Jazero'},
-        timeFrom: new Date(),
-        timeTo: new Date(),
-        guest: 'Fero'
-      },
-      {
-        hunter: this.userService.currentUser,
-        location: {id: '2',name: 'Kostolne'},
-        timeFrom: new Date(),
-        timeTo: new Date(),
-      }
-    ];
-    seed.forEach(trip => this.tripsService.add(trip));
+    if(!environment.production)
+      this.seed();
+
     this.dataSource = new TripsDataSource(this.tripsService);
     this.loadTripsPage();
   }
@@ -97,14 +63,55 @@ export class MainViewComponent implements AfterViewInit,OnInit {
         .subscribe();
   }
 
+  private seed(){
+    const date = new Date(); 
+    const seed: TripModel[] = [
+      {
+        hunter: this.userService.currentUser,
+        location: {id: '1',name: 'Jazero'},
+        timeFrom: date,
+        timeTo: date,
+        guest: 'Peto'
+      },
+      {
+        hunter: this.userService.currentUser,
+        location: {id: '1',name: 'Jazero'},
+        timeFrom: date,
+        timeTo: date,
+        guest: 'Jozo'
+      },
+      {
+        hunter: this.userService.currentUser,
+        location: {id: '1',name: 'Jazero'},
+        timeFrom: date,
+        timeTo: date,
+        guest: 'Jano'
+      },
+      {
+        hunter: this.userService.currentUser,
+        location: {id: '1',name: 'Jazero'},
+        timeFrom: date,
+        timeTo: date,
+        guest: 'Fero'
+      },
+      {
+        hunter: this.userService.currentUser,
+        location: {id: '2',name: 'Kostolne'},
+        timeFrom: date,
+        timeTo: date,
+      }
+    ];
+    seed.forEach(trip => this.tripsService.add(trip));
+  }
+
   loadTripsPage(): void {
     this.dataSource.loadTrips(this.selectedDate,this.filter,this.sort.direction, this.paginator.pageIndex, this.paginator.pageSize);
   }
 
   displayedColumns: string[] = [
-    'locationName', 'hunterName', 'hunterHost',
-    'huntingType','time','animalGender',
-    'animalCount','reasonOfDeath','markNumber','note'
+    'locationName', 'hunterName', 'hunterHost','time',
+    /*'huntingType','time','animalGender',
+    'animalCount','reasonOfDeath','markNumber',*/'note'
   ];
 
   dataSource : TripsDataSource; 

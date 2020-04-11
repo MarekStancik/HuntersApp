@@ -5,7 +5,7 @@
 
     <div fxLayout="column" fxLayoutAlign="center" fxFill>
         <h2>Prehľad zápisov na zvolený dátum</h2>
-        <div fxLayout="row">
+        <div fxLayout="row wrap">
             <mat-form-field style="margin-right: 20px;">
                 <mat-label>Filter</mat-label>
                 <input matInput [(ngModel)]="filter">
@@ -19,27 +19,36 @@
             </mat-form-field>
         </div>
         
-        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+        <mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
         
             <!-- Position Column -->
             <ng-container matColumnDef="locationName">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Lokácia </th>
-                <td mat-cell *matCellDef="let element"> {{element.location.name}} </td>
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Lokácia </mat-header-cell>
+                <mat-cell *matCellDef="let element"> 
+                    <span class="mobile-label">Lokácia: </span>
+                    {{element.location.name}} 
+                </mat-cell>
             </ng-container>
             
             <!-- Name Column -->
             <ng-container matColumnDef="hunterName">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Meno Polovníka </th>
-                <td mat-cell *matCellDef="let element"> {{element.hunter.name}} </td>
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Polovník </mat-header-cell>
+                <mat-cell *matCellDef="let element"> 
+                    <span class="mobile-label">Polovník: </span>
+                    {{element.hunter.name}} 
+                </mat-cell>
             </ng-container>
             
             <!-- Weight Column -->
             <ng-container matColumnDef="hunterHost">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Meno Hosťa </th>
-                <td mat-cell *matCellDef="let element"> {{element.guest}} </td>
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Hosť </mat-header-cell>
+                <mat-cell *matCellDef="let element"> 
+                    <span class="mobile-label"> Hosť: </span>
+                    {{element.guest}} 
+                </mat-cell>
             </ng-container>
             
-            <!-- Symbol Column -->
+            <!-- 
             <ng-container matColumnDef="huntingType">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Spôsob polovania </th>
                 <td mat-cell *matCellDef="let element"> {{element.huntingType}} </td>
@@ -53,15 +62,17 @@
             <ng-container matColumnDef="animalCount">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Počet </th>
                 <td mat-cell *matCellDef="let element"> {{element.animalCount}} </td>
-            </ng-container>
+            </ng-container>-->
 
             <ng-container matColumnDef="time">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Dátum a Čas</th>
-                <td mat-cell *matCellDef="let element"> 
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Dátum a Čas</mat-header-cell>
+                <mat-cell *matCellDef="let element"> 
+                    <span class="mobile-label">Dátum a čas: </span>
                     {{asDateString(element)}}
-                </td>
+                </mat-cell>
             </ng-container>
 
+            <!--
             <ng-container matColumnDef="reasonOfDeath">
                 <th mat-header-cell *matHeaderCellDef> Dôvod úhynu </th>
                 <td mat-cell *matCellDef="let element"> {{element.reasonOfDeath}} </td>
@@ -70,19 +81,22 @@
             <ng-container matColumnDef="markNumber">
                 <th mat-header-cell *matHeaderCellDef> Číslo značky </th>
                 <td mat-cell *matCellDef="let element"> {{element.markNumber}} </td>
-            </ng-container>
+            </ng-container> -->
 
             <ng-container matColumnDef="note">
-                <th mat-header-cell *matHeaderCellDef> Poznámka </th>
-                <td mat-cell *matCellDef="let element"> {{element.note}} </td>
+                <mat-header-cell *matHeaderCellDef> Poznámka </mat-header-cell>
+                <mat-cell mat-cell *matCellDef="let element"> 
+                    <span class="mobile-label">Poznámka: </span>
+                    {{element.note}} 
+                </mat-cell>
             </ng-container>
             
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"
                 (click)="getRecord(row)"
                 [ngClass]="{'highlight': selectedRow == row}"
-                style="cursor: pointer;"></tr>
-        </table>
+                style="cursor: pointer;"></mat-row>
+        </mat-table>
 
         <mat-paginator 
             [length]="dataSource.totalCount$ | async"

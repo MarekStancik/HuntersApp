@@ -26,6 +26,8 @@ import { AdminUsersViewComponent } from './admin/admin-users-view/admin-users-vi
 import { AdminLocationsViewComponent } from './admin/admin-locations-view/admin-locations-view.component';
 import { LoginViewComponent } from './users/login-view/login-view.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { SharedModule } from './shared.module';
 
 @NgModule({
   declarations: [
@@ -43,21 +45,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MatButtonModule,
-    MatTableModule,
-    MatInputModule,
-    FlexLayoutModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatProgressSpinnerModule,
-    MatSelectModule,
-    MatListModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatToolbarModule,
     MatDialogModule,
+    MatSnackBarModule,
+    SharedModule.forRoot()
   ],
   exports:[
     

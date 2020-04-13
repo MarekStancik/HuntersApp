@@ -8,6 +8,8 @@ import { TripModel } from '../trips/shared/trip-model';
 import { UserService } from '../users/shared/user.service';
 import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-check-in-view',
@@ -30,8 +32,9 @@ export class CheckInViewComponent implements OnInit {
 
   constructor(private tripService: TripService,
     private locService: LocationService,
-    private userService: UserService,
-    private router: Router) { }
+    private _authService: AuthService,
+    private router: Router,
+    private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.locations$ = this.locService.readAll();
@@ -40,6 +43,10 @@ export class CheckInViewComponent implements OnInit {
   }
 
   save(){
+    if(this._authService.currentUser === null){
+      alert('Musíte sa Prihlásiť, aby ste sa mohli zapísať');
+      return;
+    }
     const val = this.checkInForm.value;
     const from = new Date(val.dateFrom);    
     from.setHours(val.timeFrom.substr(0,2),val.timeFrom.substr(3,2),0,0);
@@ -48,7 +55,7 @@ export class CheckInViewComponent implements OnInit {
     to.setHours(val.timeTo.substr(0,2),val.timeTo.substr(3,2),0,0);
 
     let trip: TripModel = {
-      hunter: this.userService.getCurrentUser(),
+      hunter: this._authService.currentUser,
       location: val.location,
       timeFrom: from,
       timeTo: to,
@@ -63,7 +70,7 @@ export class CheckInViewComponent implements OnInit {
         })
       ).subscribe(data => {
         if(data !== null){
-          alert('Záznam bol zaevidovaný')
+          this._snackBar.open('Záznam bol zaevidovaný','OK',{duration: 2000});
           this.router.navigate(['']);
         }
       })

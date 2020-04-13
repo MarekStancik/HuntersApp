@@ -1,19 +1,34 @@
-<div fxLayout="column" fxLayoutAlign="space-around center">
-    <h5>Lokácie</h5>
-    <mat-list role="list">
-        <mat-list-item *ngFor="let loc of locations$ | async" 
-            role="listitem"
-            [class.active]="selectedLoc === loc"
-            (click)="selectedLoc = loc">
-            {{loc.name}}
-        </mat-list-item>
-        <mat-list-item>
-            <input matInput type="text" (keyup.enter)="addLocation(newLocation)" [(ngModel)]="newLocation">
-            <button (click)="addLocation(newLocation)">Pridať</button>
-        </mat-list-item>
-    </mat-list>
-    <div *ngIf="selectedLoc">
-        <input matInput type="text" (keyup.enter)="updateLocation(selectedLoc,updatedName)" [(ngModel)]="updatedName">
-        <button>Premenovať</button>
-    </div>
+<div fxLayout="column" fxFlexOffset="10" fxFlex="80" fxLayoutAlign="space-around center">
+        <h5>Lokácie</h5>
+        <mat-list role="list">
+            <mat-list-item *ngFor="let loc of locations$ | async" 
+                role="listitem"
+                [class.active]="selectedLoc === loc"
+                (click)="selectedLoc = loc">
+                {{loc.name}}
+            </mat-list-item>
+        </mat-list>
+
+        <div fxLayout="row wrap" class="button-container">
+            <div>
+                <mat-form-field>
+                    <mat-label>Nová lokácia</mat-label>
+                    <input matInput type="text" (keyup.enter)="addLocation(newLocation)" [(ngModel)]="newLocation">
+                </mat-form-field>
+                <button mat-raised-button color="primary" (click)="addLocation(newLocation)">Pridať</button>
+            </div>
+
+            <span fxFlex></span>
+            
+            <div *ngIf="selectedLoc">
+                <mat-form-field>
+                    <mat-label>Premenovať</mat-label>
+                    <input matInput type="text"
+                        placeholder="{{selectedLoc.name}}"
+                        (keyup.enter)="updateLocation(selectedLoc,updatedName)" 
+                        [(ngModel)]="updatedName">
+                </mat-form-field>
+                <button mat-raised-button color="accent" (click)="updateLocation(selectedLoc,updatedName)">Premenovať</button>
+            </div>
+        </div>
 </div>

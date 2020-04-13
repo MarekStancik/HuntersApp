@@ -1,10 +1,10 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { UserService } from '../shared/user.service';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/auth/auth.service';
 
 export interface DialogLoginData{
-  auth: UserService;
+  auth: AuthService;
   router: Router;
 }
 
@@ -31,11 +31,11 @@ export class LoginViewComponent implements OnInit {
   closeSuccess(){
     this.isSignedIn = true;
     this.dialogRef.close();
-    this.data.router.navigate(['/user/profile'])
+    //this.data.router.navigate(['/user/profile'])
   }
 
   signIn(){
-    this.data.auth.login(this.email,this.password)
+    this.data.auth.signIn(this.email,this.password)
       .then(() => {
         this.closeSuccess();
       })

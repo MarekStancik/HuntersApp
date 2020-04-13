@@ -39,7 +39,9 @@ export class TripService {
   :  Observable<TripEnumerable> {
     const pageStart = pageIndex * pageSize;
     const filtered = this.collection
-    .filter(trip =>{ 
+    .filter(trip =>{
+      console.log(trip);
+       
       return (this.equalOnlyDate(trip.timeTo,date) || this.equalOnlyDate(trip.timeFrom,date))
       && trip.hunter.name.toLowerCase().includes(filter) //Filter by filter
     })

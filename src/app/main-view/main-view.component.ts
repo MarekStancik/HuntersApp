@@ -8,6 +8,7 @@ import { merge } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { UserService } from '../users/shared/user.service';
 import { environment } from 'src/environments/environment';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-main-view',
@@ -42,11 +43,12 @@ export class MainViewComponent implements AfterViewInit,OnInit {
     this.loadTripsPage();
   }
 
-  constructor(private tripsService: TripService,private userService: UserService) { }
+  constructor(private tripsService: TripService,
+    private _authService: AuthService) { }
 
   ngOnInit() {
-    if(!environment.production)
-      this.seed();
+   // if(!environment.production)
+     // this.seed();
 
     this.dataSource = new TripsDataSource(this.tripsService);
     this.loadTripsPage();
@@ -67,35 +69,35 @@ export class MainViewComponent implements AfterViewInit,OnInit {
     const date = new Date(); 
     const seed: TripModel[] = [
       {
-        hunter: this.userService.currentUser,
+        hunter: this._authService.currentUser,
         location: {id: '1',name: 'Jazero'},
         timeFrom: date,
         timeTo: date,
         guest: 'Peto'
       },
       {
-        hunter: this.userService.currentUser,
+        hunter: this._authService.currentUser,
         location: {id: '1',name: 'Jazero'},
         timeFrom: date,
         timeTo: date,
         guest: 'Jozo'
       },
       {
-        hunter: this.userService.currentUser,
+        hunter: this._authService.currentUser,
         location: {id: '1',name: 'Jazero'},
         timeFrom: date,
         timeTo: date,
         guest: 'Jano'
       },
       {
-        hunter: this.userService.currentUser,
+        hunter: this._authService.currentUser,
         location: {id: '1',name: 'Jazero'},
         timeFrom: date,
         timeTo: date,
         guest: 'Fero'
       },
       {
-        hunter: this.userService.currentUser,
+        hunter: this._authService.currentUser,
         location: {id: '2',name: 'Kostolne'},
         timeFrom: date,
         timeTo: date,
@@ -155,8 +157,8 @@ export class MainViewComponent implements AfterViewInit,OnInit {
   }
 
   canEdit(row: TripModel):boolean{
-    const user = this.userService.currentUser;
-    return row && user && (row.hunter === user || this.userService.isAdmin(user));
+    const user = this._authService.currentUser;
+    return row && user && (row.hunter === user || this._authService.isAdmin(user));
   }
 
   tripToString(trip: TripModel): string {

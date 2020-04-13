@@ -3,6 +3,7 @@ import { UserService } from '../users/shared/user.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { LoginViewComponent } from '../users/login-view/login-view.component';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -11,7 +12,7 @@ import { LoginViewComponent } from '../users/login-view/login-view.component';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(public userService: UserService,private dialog: MatDialog,private router: Router) { }
+  constructor(public _authService: AuthService,private dialog: MatDialog,private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -19,7 +20,12 @@ export class NavbarComponent implements OnInit {
   showLogin(): void{
     const dialogRef = this.dialog.open(LoginViewComponent, {
       width: '250px',
-      data: {auth: this.userService, router: this.router}
+      data: {auth: this._authService, router: this.router}
     });  
+  }
+
+  isAdminLogged():boolean{
+    const user = this._authService.currentUser;
+    return user && this._authService.isAdmin(user);
   }
 }

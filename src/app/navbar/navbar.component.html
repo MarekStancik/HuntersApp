@@ -2,6 +2,11 @@
     <span [routerLink]="['']" routerLinkActive="router-link-active" style="cursor: pointer;">Domov</span>
     <span fxFlex></span>
 
+    <div *ngIf="isAdminLogged()">
+        <a [routerLink]="['/admin/users']" routerLinkActive="router-link-active"  mat-button>Užívatelia</a>
+        <a [routerLink]="['/admin/locations']" routerLinkActive="router-link-active"  mat-button>Lokácie</a>
+    </div>
+
     <div *ngIf="userService.getCurrentUser(); else login">
         <button mat-button (click)="userService.signOut()">Odhlásiť sa</button>
     </div>

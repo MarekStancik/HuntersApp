@@ -6,6 +6,7 @@ import { EditRecordViewComponent } from './edit-record-view/edit-record-view.com
 import { AdminMainViewComponent } from './admin/admin-main-view/admin-main-view.component';
 import { AdminLocationsViewComponent } from './admin/admin-locations-view/admin-locations-view.component';
 import { AdminUsersViewComponent } from './admin/admin-users-view/admin-users-view.component';
+import { AdminGuard } from './guards/admin.guard';
 
 
 const routes: Routes = [
@@ -23,16 +24,9 @@ const routes: Routes = [
   },
   {
     path: "admin",
-    component: AdminMainViewComponent
+    loadChildren:() => import('./admin/admin.module').then(m=>m.AdminModule),
+    canLoad: [AdminGuard]
   },
-  {
-    path: "admin/locations",
-    component: AdminLocationsViewComponent
-  },
-  {
-    path: "admin/users",
-    component: AdminUsersViewComponent
-  }
 ];
 
 @NgModule({

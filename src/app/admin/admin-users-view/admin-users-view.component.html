@@ -1,1 +1,37 @@
-<p>admin-users-view works!</p>
+<div fxLayout="row" fxFlexOffset="10" fxFlex="80">
+<div fxLayout="column" fxLayoutAlign="center" fxFill>
+    <h5>Užívateľia</h5>
+
+    <mat-table fxFlex="80" [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+        
+        <!-- Position Column -->
+        <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Meno </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                {{element.name}} 
+            </mat-cell>
+        </ng-container>
+        
+        <!-- Weight Column -->
+        <ng-container matColumnDef="rules">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Práva </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                {{element.rules}} 
+            </mat-cell>
+        </ng-container>
+        
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"
+            (click)="getRecord(row)"
+            [ngClass]="{'highlight': selectedRow == row}"
+            style="cursor: pointer;"></mat-row>
+    </mat-table>
+
+    <div fxLayout="row" fxLayoutAlign="space-around none">
+        <button mat-raised-button color="primary">Add</button>
+        <span fxFlex></span>
+        <button mat-raised-button color="warn">Delete</button>
+        <button mat-raised-button color="accent">Edit</button>
+    </div>
+</div>
+</div>

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { TripModel } from '../shared/trip-model';
+import { TripModel, HuntingCatch } from '../shared/trip-model';
 import { TripsDataSource } from '../shared/trips-data-source';
 import { TripService } from '../shared/trip.service';
 import { AuthService } from 'src/app/auth/shared/auth.service';
@@ -65,7 +65,7 @@ export class TripListComponent implements OnInit,AfterViewInit {
   }
 
   displayedColumns: string[] = [
-    'locationName', 'hunterName', 'hunterHost','time','note'
+    'locationName', 'hunterName', 'hunterHost','huntingType','time','note'
   ];
 
   dataSource : TripsDataSource; 
@@ -115,7 +115,7 @@ export class TripListComponent implements OnInit,AfterViewInit {
     return row && user && (row.hunter === user || this._authService.isAdmin(user));
   }
 
-  tripToString(trip: TripModel): string {
-    return `Spôsob polovania: ${trip.huntingType} Pohlavie zvieraťa: ${trip.animalGender} Počet zvierat: ${trip.animalCount} Dôvod úmrtia: ${trip.reasonOfDeath} Číslo značky: ${trip.markNumber}`;
+  catchToString(c: HuntingCatch): string {
+    return `Názov zvery: ${c.animal} Pohlavie zvery: ${c.animalGender} Dôvod úmrtia: ${c.reasonOfDeath} Číslo značky: ${c.markNumber}`;
   }
 }

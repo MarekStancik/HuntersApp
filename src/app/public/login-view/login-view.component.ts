@@ -25,8 +25,7 @@ export class LoginViewComponent implements OnInit {
   }
 
   closeSuccess(){
-    debugger
-    this.router.navigate(['/trips'])
+    this.router.navigate([''])
   }
 
   signIn(){

@@ -1,6 +1,12 @@
 import { LocationModel } from 'src/app/locations/shared/location-model';
 import { UserModel } from 'src/app/users/shared/user-model';
-import { Time } from '@angular/common';
+
+export interface HuntingCatch{
+  animal: string;
+  animalGender: AnimalGender;
+  reasonOfDeath: ReasonOfDeath;
+  markNumber: number;
+}
 
 export interface TripModel {
     hunter: UserModel;
@@ -8,12 +14,9 @@ export interface TripModel {
     timeFrom: Date;
     timeTo: Date;
     guest?: string;
-    huntingType?: HuntingType;
-    animalGender?: AnimalGender;
-    reasonOfDeath?: ReasonOfDeath;
-    animalCount?: number;
-    markNumber?: number;
+    huntingType?: HuntingType; 
     note?: string;
+    catches?: HuntingCatch[]; 
 }
 
 export enum HuntingType{

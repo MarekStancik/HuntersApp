@@ -59,6 +59,14 @@
                     {{element.note}} 
                 </mat-cell>
             </ng-container>
+
+            <ng-container matColumnDef="huntingType">
+                <mat-header-cell *matHeaderCellDef> Spôsob Polovania </mat-header-cell>
+                <mat-cell mat-cell *matCellDef="let element"> 
+                    <span class="mobile-label">Spôsob Polovania: </span>
+                    {{element.huntingType}} 
+                </mat-cell>
+            </ng-container>
             
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns;"
@@ -83,8 +91,13 @@
             </div>
         </div>
 
-        <div *ngIf="selectedRow">
-            {{tripToString(selectedRow)}}
+        <div *ngIf="selectedRow && selectedRow.catches">
+            <mat-list>
+                <mat-list-item>Počet úlovkov: {{selectedRow.catches.length}}</mat-list-item>
+                <mat-list-item *ngFor="let c of selectedRow.catches">
+                    {{catchToString(c)}}
+                </mat-list-item>
+            </mat-list>
         </div>
     </div>
 </div>

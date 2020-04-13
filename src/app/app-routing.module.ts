@@ -8,11 +8,6 @@ import { LoginViewComponent } from './public/login-view/login-view.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'trips',
-    pathMatch: 'full'
-  },
-  {
-    path: 'trips',
     loadChildren:() => import('./trips/trips.module').then(m => m.TripsModule),
     canLoad: [LoginGuard]
   },

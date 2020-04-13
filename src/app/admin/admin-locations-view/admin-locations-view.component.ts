@@ -30,8 +30,11 @@ export class AdminLocationsViewComponent implements OnInit {
   }
 
   updateLocation(loc: LocationModel,newName: string){
-    loc.name = newName;
-    this.locationService.update(loc);
+    this.locationService.update(loc,newName)
+    .then(() =>{ 
+      this.updatedName = ''
+      this.selectedLoc = null;
+    })
   }
 
 }

@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import {auth} from 'firebase';
 import { AngularFireAuth } from '@angular/fire/auth'
 import { AngularFirestore } from '@angular/fire/firestore'
-import { switchMap } from 'rxjs/operators';
+import { switchMap} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'

@@ -15,8 +15,15 @@
                 <mat-error *ngIf="error">
                     {{error}}
                 </mat-error>
-                <button mat-raised-button color="primary" type="submit" style="width: 100%;">Prihlásiť sa</button>
+                <button [disabled]="isLogging" 
+                    mat-raised-button color="primary" 
+                    type="submit" 
+                    style="width: 100%;">
+                    {{ isLogging ? 'Prihlasujem' : 'Prihlásiť sa'}}
+                </button>
             </form>
+            <br>
+            <button class="link clickable-text" style="width: 100%;" (click)="resetPassword()">Reset Password</button>
         </div>
     </div>
 </div>

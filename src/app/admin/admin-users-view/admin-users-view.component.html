@@ -5,6 +5,13 @@
     <mat-table fxFlex="80" [dataSource]="dataSource" class="mat-elevation-z8" matSort>
         
         <!-- Position Column -->
+        <ng-container matColumnDef="email">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Email </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                {{element.email}} 
+            </mat-cell>
+        </ng-container>
+
         <ng-container matColumnDef="name">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Meno </mat-header-cell>
             <mat-cell *matCellDef="let element">
@@ -16,7 +23,7 @@
         <ng-container matColumnDef="rules">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Práva </mat-header-cell>
             <mat-cell *matCellDef="let element">
-                {{element.rules}} 
+                {{getRules(element)}} 
             </mat-cell>
         </ng-container>
         

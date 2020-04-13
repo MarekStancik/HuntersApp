@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AdminGuard } from './guards/admin.guard';
 import { LoginGuard } from './guards/login.guard';
+import { LoginViewComponent } from './public/login-view/login-view.component';
 
 
 const routes: Routes = [
@@ -21,8 +22,8 @@ const routes: Routes = [
     canLoad: [AdminGuard]
   },
   {
-    path: "auth",
-    loadChildren:() => import('./auth/auth.module').then(m=>m.AuthModule)
+    path: "login",
+    component: LoginViewComponent
   },
 ];
 

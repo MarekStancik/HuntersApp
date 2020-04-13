@@ -21,9 +21,11 @@ export class LoginGuard implements CanLoad {
         map(user =>  !!user),
         tap(loggedIn => {
           if(!loggedIn){
-            this.router.navigate(['/auth']);
+            this.router.navigate(['/login']);
           }
         })
       );
   }
+
+  
 }

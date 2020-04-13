@@ -8,44 +8,51 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     font: 400 40px/1.5 Helvetica, Verdana, sans-serif;
     margin: 0;
     padding: 0;
-  }
+}
+  
+.basic-list ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 10px;
+  float: left;
+  background-color: rgb(237,20,90,0.6);
+  max-width: 100%;
+  width: 99%;
+}
+
+.basic-list ul:hover{
+  box-shadow: 0px 0px 7px #18D8F0;
+}
+  
+.basic-list li:last-child {
+  border: none;
+}
+
+.basic-list li{
+    font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
+    border-bottom: 1px dotted #18C0F0;
+    text-decoration: none;
+    color: #000;
+    display: block;
+
+    -webkit-transition: font-size 0.3s ease, background-color 0.3s ease;
+    -moz-transition: font-size 0.3s ease, background-color 0.3s ease;
+    -o-transition: font-size 0.3s ease, background-color 0.3s ease;
+    -ms-transition: font-size 0.3s ease, background-color 0.3s ease;
+    transition: font-size 0.3s ease, background-color 0.3s ease;
+}
     
-  .basic-list ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 10px;
-    float: left;
-    background-color: rgb(237,20,90,0.6);
-    max-width: 100%;
-    width: 99%;
-  }
-  
-  .basic-list ul:hover{
-    box-shadow: 0px 0px 7px #18D8F0;
-  }
-    
-  .basic-list li:last-child {
-    border: none;
-  }
-  
-  .basic-list li{
-      font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
-      border-bottom: 1px dotted #18C0F0;
-      text-decoration: none;
-      color: #000;
-      display: block;
-  
-      -webkit-transition: font-size 0.3s ease, background-color 0.3s ease;
-      -moz-transition: font-size 0.3s ease, background-color 0.3s ease;
-      -o-transition: font-size 0.3s ease, background-color 0.3s ease;
-      -ms-transition: font-size 0.3s ease, background-color 0.3s ease;
-      transition: font-size 0.3s ease, background-color 0.3s ease;
-  }
-      
-  .basic-list li:hover {
-      background: rgb(24,216,240,0.8);
-  }
-  
-  .basic-list li.active {
-    background: #F090C0;
-  }
+.basic-list li:hover {
+    background: rgb(24,216,240,0.8);
+}
+
+.basic-list li.active {
+  background: #F090C0;
+}
+
+.clickable-text:hover{
+  cursor: pointer;
+  text-decoration: underline solid black;
+}
+
+button.link { background:none;border:none; }

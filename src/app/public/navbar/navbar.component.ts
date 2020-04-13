@@ -15,11 +15,16 @@ export class NavbarComponent implements OnInit {
   }
 
   showLogin(): void{
-    this.router.navigate(['']);
+    this.router.navigate(['/login']);
   }
 
   isAdminLogged():boolean{
     const user = this.authService.currentUser;
     return user && this.authService.isAdmin(user);
+  }
+
+  signOut(){
+    this.authService.signOut()
+      .then(() => this.showLogin());
   }
 }

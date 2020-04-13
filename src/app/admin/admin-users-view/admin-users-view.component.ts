@@ -25,6 +25,10 @@ export class AdminUsersViewComponent implements OnInit {
   }
 
   displayedColumns: string[] = [
-    'name', 'rules'
+    'email','name', 'rules'
   ];
+
+  getRules(row: UserModel): string{
+    return row.roles.admin ? 'admin' : 'polovník';
+  }
 }

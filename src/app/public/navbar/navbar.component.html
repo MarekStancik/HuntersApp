@@ -8,7 +8,7 @@
     </div>
 
     <div *ngIf="authService.user$ | async; else login">
-        <button mat-button (click)="authService.signOut()">Odhlásiť sa</button>
+        <button mat-button (click)="signOut()">Odhlásiť sa</button>
     </div>
 
     <ng-template #login>

@@ -1,12 +1,9 @@
 <div fxLayout="row" fxFlexOffset="10" fxFlex="80">
-    <div class="spinner-container" *ngIf="dataSource.loading$ | async; else loaded">
-        <mat-spinner></mat-spinner>
-    </div>
-
-    <ng-template #loaded></ng-template>
-
     <div fxLayout="column" fxLayoutAlign="center" fxFill>
         <h2>Prehľad zápisov na zvolený dátum</h2>
+        <div class="spinner-container" *ngIf="dataSource.loading$ | async">
+            <mat-spinner></mat-spinner>
+        </div>
         <div fxLayout="row wrap">
             <mat-form-field style="margin-right: 20px;">
                 <mat-label>Filter</mat-label>
@@ -23,7 +20,6 @@
         
         <mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
         
-            <!-- Position Column -->
             <ng-container matColumnDef="locationName">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Lokácia </mat-header-cell>
                 <mat-cell *matCellDef="let element"> 
@@ -32,7 +28,6 @@
                 </mat-cell>
             </ng-container>
             
-            <!-- Name Column -->
             <ng-container matColumnDef="hunterName">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Polovník </mat-header-cell>
                 <mat-cell *matCellDef="let element"> 
@@ -41,7 +36,6 @@
                 </mat-cell>
             </ng-container>
             
-            <!-- Weight Column -->
             <ng-container matColumnDef="hunterHost">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Hosť </mat-header-cell>
                 <mat-cell *matCellDef="let element"> 
@@ -74,11 +68,11 @@
         </mat-table>
 
         <mat-paginator 
-            [length]="dataSource.totalCount$ | async"
-            [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator> 
+        [length]="dataSource.totalCount$ | async"
+        [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator> 
 
         <div fxLayout="row wrap" fxLayoutAlign="space-between">
-            <button mat-raised-button color="primary" [routerLink]="['/checkin']" routerLinkActive="router-link-active" >Zapísať sa</button>    
+            <button mat-raised-button color="primary" [routerLink]="['checkin']" routerLinkActive="router-link-active" >Zapísať sa</button>    
             <div *ngIf="canEdit(selectedRow)">
                 <button mat-raised-button 
                     color="accent" 

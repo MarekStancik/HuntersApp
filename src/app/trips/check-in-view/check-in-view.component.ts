@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { TripService } from '../trips/shared/trip.service';
-import { LocationModel } from '../locations/shared/location-model';
+import { TripService } from '../shared/trip.service';
+import { LocationModel } from '../../locations/shared/location-model';
 import { Observable } from 'rxjs';
-import { LocationService } from '../locations/shared/location.service';
-import { TripModel } from '../trips/shared/trip-model';
-import { UserService } from '../users/shared/user.service';
+import { LocationService } from '../../locations/shared/location.service';
+import { TripModel } from '../shared/trip-model';
+import { UserService } from '../../users/shared/user.service';
 import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import { AuthService } from '../auth/auth.service';
+import { AuthService } from '../../auth/shared/auth.service';
 
 @Component({
   selector: 'app-check-in-view',
@@ -70,7 +70,7 @@ export class CheckInViewComponent implements OnInit {
         })
       ).subscribe(data => {
         if(data !== null){
-          this._snackBar.open('Záznam bol zaevidovaný','OK',{duration: 2000});
+          this._snackBar.open('Záznam uložený','OK',{duration: 2000});
           this.router.navigate(['']);
         }
       })

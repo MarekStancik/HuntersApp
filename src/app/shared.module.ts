@@ -12,7 +12,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatListModule } from '@angular/material/list';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatToolbarModule } from '@angular/material/toolbar';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -35,9 +35,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatListModule,
     FormsModule,
     ReactiveFormsModule,
-    MatToolbarModule,
+    RouterModule
   ]
 })
+
 export class SharedModule { 
   static forRoot(){
     return{

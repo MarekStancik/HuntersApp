@@ -1,0 +1,22 @@
+<div fxLayout="row" fxFlexOffset="10" fxFlex="80">
+    <div fxLayout="column" fxLayoutAlign="center center" fxFill>
+        <h1>Prihlásenie</h1>
+        <div>
+            <form (ngSubmit)="signIn()">
+                <mat-form-field style="width: 100%;">
+                    <mat-label for="email">Email</mat-label>
+                    <input matInput id="email" name="email" type="email" [(ngModel)]="email">
+                </mat-form-field>
+            
+                <mat-form-field style="width: 100%;">
+                    <mat-label for="pass">Heslo</mat-label>
+                    <input matInput id="pass" name="pass" type="password" [(ngModel)]="password">
+                </mat-form-field>
+                <mat-error *ngIf="error">
+                    {{error}}
+                </mat-error>
+                <button mat-raised-button color="primary" type="submit" style="width: 100%;">Prihlásiť sa</button>
+            </form>
+        </div>
+    </div>
+</div>

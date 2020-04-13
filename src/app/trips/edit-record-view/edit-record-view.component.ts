@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { TripService } from '../trips/shared/trip.service';
+import { TripService } from '../shared/trip.service';
 import { Observable } from 'rxjs';
-import { LocationModel } from '../locations/shared/location-model';
-import { LocationService } from '../locations/shared/location.service';
+import { LocationModel } from '../../locations/shared/location-model';
+import { LocationService } from '../../locations/shared/location.service';
 
 @Component({
   selector: 'app-edit-record-view',

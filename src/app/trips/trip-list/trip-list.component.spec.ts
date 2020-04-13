@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MainViewComponent } from './main-view.component';
+import { TripListComponent } from './trip-list.component';
 
-describe('MainViewComponent', () => {
-  let component: MainViewComponent;
-  let fixture: ComponentFixture<MainViewComponent>;
+describe('TripListComponent', () => {
+  let component: TripListComponent;
+  let fixture: ComponentFixture<TripListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MainViewComponent ]
+      declarations: [ TripListComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MainViewComponent);
+    fixture = TestBed.createComponent(TripListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

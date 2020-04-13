@@ -1,21 +1,19 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { HuntingType, AnimalGender, ReasonOfDeath, TripModel } from '../trips/shared/trip-model';
-import { TripsDataSource } from '../trips/shared/trips-data-source';
-import { TripService } from '../trips/shared/trip.service';
+import { TripModel } from '../shared/trip-model';
+import { TripsDataSource } from '../shared/trips-data-source';
+import { TripService } from '../shared/trip.service';
+import { AuthService } from 'src/app/auth/shared/auth.service';
 import { merge } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { UserService } from '../users/shared/user.service';
-import { environment } from 'src/environments/environment';
-import { AuthService } from '../auth/auth.service';
 
 @Component({
-  selector: 'app-main-view',
-  templateUrl: './main-view.component.html',
-  styleUrls: ['./main-view.component.scss']
+  selector: 'app-trip-list',
+  templateUrl: './trip-list.component.html',
+  styleUrls: ['./trip-list.component.scss']
 })
-export class MainViewComponent implements AfterViewInit,OnInit {
+export class TripListComponent implements OnInit,AfterViewInit {
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
@@ -47,9 +45,6 @@ export class MainViewComponent implements AfterViewInit,OnInit {
     private _authService: AuthService) { }
 
   ngOnInit() {
-   // if(!environment.production)
-     // this.seed();
-
     this.dataSource = new TripsDataSource(this.tripsService);
     this.loadTripsPage();
   }
@@ -63,47 +58,6 @@ export class MainViewComponent implements AfterViewInit,OnInit {
             tap(() => this.loadTripsPage())
         )
         .subscribe();
-  }
-
-  private seed(){
-    const date = new Date(); 
-    const seed: TripModel[] = [
-      {
-        hunter: this._authService.currentUser,
-        location: {id: '1',name: 'Jazero'},
-        timeFrom: date,
-        timeTo: date,
-        guest: 'Peto'
-      },
-      {
-        hunter: this._authService.currentUser,
-        location: {id: '1',name: 'Jazero'},
-        timeFrom: date,
-        timeTo: date,
-        guest: 'Jozo'
-      },
-      {
-        hunter: this._authService.currentUser,
-        location: {id: '1',name: 'Jazero'},
-        timeFrom: date,
-        timeTo: date,
-        guest: 'Jano'
-      },
-      {
-        hunter: this._authService.currentUser,
-        location: {id: '1',name: 'Jazero'},
-        timeFrom: date,
-        timeTo: date,
-        guest: 'Fero'
-      },
-      {
-        hunter: this._authService.currentUser,
-        location: {id: '2',name: 'Kostolne'},
-        timeFrom: date,
-        timeTo: date,
-      }
-    ];
-    seed.forEach(trip => this.tripsService.add(trip));
   }
 
   loadTripsPage(): void {
@@ -164,5 +118,4 @@ export class MainViewComponent implements AfterViewInit,OnInit {
   tripToString(trip: TripModel): string {
     return `Spôsob polovania: ${trip.huntingType} Pohlavie zvieraťa: ${trip.animalGender} Počet zvierat: ${trip.animalCount} Dôvod úmrtia: ${trip.reasonOfDeath} Číslo značky: ${trip.markNumber}`;
   }
-
 }

@@ -12,10 +12,14 @@ export class AuthService {
 
   private _currentUser: UserModel = null;
 
-  constructor() { }
+  constructor(
+    private afAuth: AngularFireAuth,
+    private afs: AngularFirestore) {
+
+  }
 
   signIn(email: string, password: string) : Promise<auth.UserCredential>{
-    throw new Error("Method not implemented.");
+    return this.afAuth.auth.signInWithEmailAndPassword(email,password);
   }
 
   get currentUser(){

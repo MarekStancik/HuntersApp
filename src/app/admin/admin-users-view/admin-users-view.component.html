@@ -4,14 +4,6 @@
 
     <mat-table fxFlex="80" [dataSource]="dataSource" class="mat-elevation-z8" matSort>
         
-        <!-- Position Column -->
-        <ng-container matColumnDef="email">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Email </mat-header-cell>
-            <mat-cell *matCellDef="let element">
-                {{element.email}} 
-            </mat-cell>
-        </ng-container>
-
         <ng-container matColumnDef="name">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Meno </mat-header-cell>
             <mat-cell *matCellDef="let element">
@@ -34,8 +26,30 @@
             style="cursor: pointer;"></mat-row>
     </mat-table>
 
+    <div fxLayout='column'>
+        <form [formGroup]="userForm">   
+            <mat-form-field>
+                <mat-label for="username">Meno</mat-label>
+                <input matInput id="username" type="text" formControlName="username">
+            </mat-form-field>
+    
+            <mat-form-field>
+                <mat-label for="password">Heslo</mat-label>
+                <input matInput id="password" type="password" formControlName="password">
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-select formControlName="role" placeholder='Práva'>
+                    <mat-option *ngFor="let role of getRoles()" [value]="role">
+                        {{role}}
+                      </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </form>
+    </div>
+
     <div fxLayout="row" fxLayoutAlign="space-around none">
-        <button mat-raised-button color="primary">Add</button>
+        <button mat-raised-button color="primary" (click)="addUser('Marek Stančík','heslo123')">Add</button>
         <span fxFlex></span>
         <button mat-raised-button color="warn">Delete</button>
         <button mat-raised-button color="accent">Edit</button>

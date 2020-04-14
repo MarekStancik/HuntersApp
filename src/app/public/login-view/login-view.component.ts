@@ -12,7 +12,7 @@ export class LoginViewComponent implements OnInit {
 
   isLogging = false;
 
-  email: string;
+  name: string;
 
   password: string;
 
@@ -30,18 +30,18 @@ export class LoginViewComponent implements OnInit {
 
   signIn(){
     this.isLogging = true;
-    this._authService.signIn(this.email,this.password)
+    this._authService.signIn(this.name,this.password)
       .then(() => {
+        console.log('success');
+        
         this.closeSuccess();
       })
       .catch(err => {
+        console.log(err);
+        
         this.error = err.message;
       })
       .finally(() => this.isLogging = false)
-  }
-
-  resetPassword(){
-    
   }
 
 }

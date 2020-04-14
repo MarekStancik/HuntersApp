@@ -35,16 +35,36 @@ export class AuthService {
       this.user$.subscribe(data => this._currentUser = data);
   }
 
-  signIn(email: string, password: string) : Promise<auth.UserCredential>{
-    return this.afAuth.signInWithEmailAndPassword(email,password);
+  private userNameToEmail(username: string) : string
+  {
+    return username.replace(/\s+/g,'.').normalize('NFD').replace(/[^a-zA-Z.]/g, '').toLowerCase() + '@mockemail.com';
+  }
+
+  signIn(username: string, password: string) : Promise<auth.UserCredential>{
+    const emailMock = this.userNameToEmail(username);  
+    return this.afAuth.signInWithEmailAndPassword(emailMock,password);
   }
 
   signOut():Promise<void>{
     return this.afAuth.signOut();
   }
 
-  addUser(email: string,pass: string):Promise<auth.UserCredential>{
-    return this.afAuth.createUserWithEmailAndPassword(email,pass);
+  addUser(username: string,pass: string):Promise<auth.UserCredential>{
+    const emailMock = this.userNameToEmail(username);
+    return new Promise((resolve,reject) => {
+      this.afAuth.createUserWithEmailAndPassword(emailMock,pass)
+      .then(ref => { 
+        const user: UserModel = {
+          id: ref.user.uid,
+          email: emailMock,
+          name: username,
+          roles: { hunter: true }
+        };
+        this.afs.doc(`users/${ref.user.uid}`).set(user)
+        resolve(ref);
+      })
+      .catch(err => reject(err))
+    });
   }
 
   //-----------------Authorization----------------//

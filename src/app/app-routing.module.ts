@@ -8,8 +8,8 @@ import { LoginViewComponent } from './public/login-view/login-view.component';
 const routes: Routes = [
   {
     path: '',
-    loadChildren:() => import('./trips/trips.module').then(m => m.TripsModule),
-    canLoad: [LoginGuard]
+    redirectTo: 'trips',
+    pathMatch: 'full'
   },
   {
     path: "admin",
@@ -17,9 +17,19 @@ const routes: Routes = [
     canLoad: [AdminGuard]
   },
   {
+    path: 'trips',
+    loadChildren:() => import('./trips/trips.module').then(m => m.TripsModule),
+    canLoad: [LoginGuard]
+  },
+  {
     path: "login",
     component: LoginViewComponent
   },
+  {
+    path: '**',
+    redirectTo: 'trips',
+    pathMatch: 'full'
+  }
 ];
 
 @NgModule({

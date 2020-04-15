@@ -15,7 +15,7 @@
         <ng-container matColumnDef="rules">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Práva </mat-header-cell>
             <mat-cell *matCellDef="let element">
-                {{getRules(element)}} 
+                {{getRoleForUser(element)}} 
             </mat-cell>
         </ng-container>
         
@@ -26,17 +26,19 @@
             style="cursor: pointer;"></mat-row>
     </mat-table>
 
-    <div fxLayout='column'>
-        <form [formGroup]="userForm">   
-            <mat-form-field>
-                <mat-label for="username">Meno</mat-label>
-                <input matInput id="username" type="text" formControlName="username">
-            </mat-form-field>
-    
-            <mat-form-field>
-                <mat-label for="password">Heslo</mat-label>
-                <input matInput id="password" type="password" formControlName="password">
-            </mat-form-field>
+    <div *ngIf="showForm" fxLayout='column'>
+        <form [formGroup]="userForm" (ngSubmit)="saveUser()">   
+            <div *ngIf="!isEditing">
+                <mat-form-field>
+                    <mat-label for="username">Meno</mat-label>
+                    <input matInput id="username" type="text" formControlName="username">
+                </mat-form-field>
+        
+                <mat-form-field>
+                    <mat-label for="password">Heslo</mat-label>
+                    <input matInput id="password" type="password" formControlName="password">
+                </mat-form-field>
+            </div>
 
             <mat-form-field>
                 <mat-select formControlName="role" placeholder='Práva'>
@@ -45,14 +47,19 @@
                       </mat-option>
                 </mat-select>
             </mat-form-field>
+
+            <button mat-raised-button color="primary" type="submit">Uložiť</button>
+            <button mat-raised-button (click)="showForm = false">Zrušiť</button>
         </form>
     </div>
 
-    <div fxLayout="row" fxLayoutAlign="space-around none">
-        <button mat-raised-button color="primary" (click)="addUser('Marek Stančík','heslo123')">Add</button>
+    <div *ngIf="!showForm" fxLayout="row">
+        <button mat-raised-button color="primary" (click)="showForAdding()">Pridať</button>
         <span fxFlex></span>
-        <button mat-raised-button color="warn">Delete</button>
-        <button mat-raised-button color="accent">Edit</button>
+        <div *ngIf="selectedRow" fxLayout="row">
+            <button mat-raised-button color="warn">Vymazať</button>
+            <button mat-raised-button color="accent" (click)="showForEdit()">Zmeniť</button>
+        </div>
     </div>
 </div>
 </div>

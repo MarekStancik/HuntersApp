@@ -12,20 +12,9 @@ export class UserService {
   constructor(private _auth: AuthService,private afs: AngularFirestore) { 
   }
 
-  createUser(user: UserModel,pass: string):Promise<UserModel>{
-    return new Promise((resolve,reject) => {
-      this._auth.addUser(user.email,pass)
-      .then(data =>{
-        user.id = data.user.uid;
-        this.updateUser(user)
-          .then(() => resolve(user))
-          .catch(error => reject(error));
-      })
-      .catch(error => reject(error));
-    });
-  }
-
-  updateUser(user: UserModel):Promise<void>{
+  updateUser(user: UserModel):Promise<any>{
+    if(user.id === this._auth.currentUser.id && this._auth.isAdmin(this._auth.currentUser) && !user.roles.admin)
+      return Promise.reject({message: 'Nemôžte odstránit admin práva sám sebe'});
     return this.afs.collection('users').doc(user.id).set(user);
   }
 

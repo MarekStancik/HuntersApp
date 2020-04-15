@@ -49,19 +49,22 @@ export class AuthService {
     return this.afAuth.signOut();
   }
 
-  addUser(username: string,pass: string):Promise<auth.UserCredential>{
-    const emailMock = this.userNameToEmail(username);
+  addUser(newUser: UserModel,pass: string):Promise<auth.UserCredential>{
+    console.log(newUser);
+    
+    const emailMock = this.userNameToEmail(newUser.name);
     return new Promise((resolve,reject) => {
       this.afAuth.createUserWithEmailAndPassword(emailMock,pass)
       .then(ref => { 
         const user: UserModel = {
           id: ref.user.uid,
           email: emailMock,
-          name: username,
-          roles: { hunter: true }
+          name: newUser.name,
+          roles: newUser.roles
         };
         this.afs.doc(`users/${ref.user.uid}`).set(user)
-        resolve(ref);
+          .then(() => resolve(ref))
+          .catch(err => reject(err));
       })
       .catch(err => reject(err))
     });

@@ -42,6 +42,12 @@
             <input matInput type="time" formControlName="timeTo">
         </mat-form-field>
 
-        <button type="submit" mat-raised-button color="primary" fxFill>Zapísať</button>
+        <button 
+            [disabled]="hasErrors()"
+            type="submit" 
+            mat-raised-button color="primary" 
+            fxFill>
+            Zapísať
+        </button>
     </form>
 </div>

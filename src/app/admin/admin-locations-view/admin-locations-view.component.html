@@ -13,9 +13,16 @@
             <div>
                 <mat-form-field>
                     <mat-label>Nová lokácia</mat-label>
-                    <input matInput type="text" (keyup.enter)="addLocation(newLocation)" [(ngModel)]="newLocation">
+                    <input matInput type="text" (keyup.enter)="addLocation()" [formControl]="newLocation">
+                    <mat-error *ngIf="hasAddError()">
+                        {{getErrorMsg()}}
+                    </mat-error>
                 </mat-form-field>
-                <button mat-raised-button color="primary" (click)="addLocation(newLocation)">Pridať</button>
+                <button mat-raised-button color="primary" 
+                    [disabled]="hasAddError() || newLocation.value === ''" 
+                    (click)="addLocation()">
+                    Pridať
+                </button>
             </div>
 
             <span fxFlex></span>
@@ -25,10 +32,17 @@
                     <mat-label>Premenovať</mat-label>
                     <input matInput type="text"
                         placeholder="{{selectedLoc.name}}"
-                        (keyup.enter)="updateLocation(selectedLoc,updatedName)" 
-                        [(ngModel)]="updatedName">
+                        (keyup.enter)="updateLocation()" 
+                        [formControl]="updatedLocation">
+                    <mat-error *ngIf="hasUpdateError()">
+                        {{getErrorMsg()}}
+                    </mat-error>
                 </mat-form-field>
-                <button mat-raised-button color="accent" (click)="updateLocation(selectedLoc,updatedName)">Premenovať</button>
+                <button mat-raised-button color="accent" 
+                    [disabled]="hasUpdateError() || updatedLocation.value === ''" 
+                    (click)="updateLocation()">
+                    Premenovať
+                </button>
             </div>
         </div>
 </div>

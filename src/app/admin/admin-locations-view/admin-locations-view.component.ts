@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LocationModel } from 'src/app/locations/shared/location-model';
 import { LocationService } from 'src/app/locations/shared/location.service';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-admin-locations-view',
@@ -10,9 +11,13 @@ import { LocationService } from 'src/app/locations/shared/location.service';
 })
 export class AdminLocationsViewComponent implements OnInit {
 
-  newLocation: string;
+  newLocation = new FormControl('',[
+    Validators.minLength(3)
+  ]);
 
-  updatedName: string;
+  updatedLocation = new FormControl('',[
+    Validators.minLength(3)
+  ]);
 
   selectedLoc: LocationModel;
 
@@ -24,15 +29,35 @@ export class AdminLocationsViewComponent implements OnInit {
     this.locations$ = this.locationService.readAll();
   }
 
-  addLocation(locName: string){
-    this.locationService.add(locName);
-    this.newLocation = '';
+  hasAddError(): boolean{
+    return this.newLocation.hasError('minlength');
   }
 
-  updateLocation(loc: LocationModel,newName: string){
-    this.locationService.update(loc,newName)
+  hasUpdateError(): boolean{
+    return this.updatedLocation.hasError('minlength');
+  }
+
+  getErrorMsg():string{
+    return 'Lokácia musí obsahovať aspoň 3 znaky';
+  }
+
+  addLocation(){
+    if(this.newLocation.value === ''){
+      return;
+    }
+      
+    this.locationService.add(this.newLocation.value);
+    this.newLocation.setValue('');
+  }
+
+  updateLocation(){
+    if(this.updatedLocation.value === ''){
+      return;
+    }
+
+    this.locationService.update(this.selectedLoc,this.updatedLocation.value)
     .then(() =>{ 
-      this.updatedName = ''
+      this.updatedLocation.setValue('')
       this.selectedLoc = null;
     })
   }

@@ -13,8 +13,14 @@ export class UserService {
   }
 
   updateUser(user: UserModel):Promise<any>{
-    if(user.id === this._auth.currentUser.id && this._auth.isAdmin(this._auth.currentUser) && !user.roles.admin)
+    if(!this._auth.isValidUser(user) || !user.id){
+      return Promise.reject({message: 'Užívateľ nemá priradené povinné atribúty'});
+    }
+
+    if(user.id === this._auth.currentUser.id && this._auth.isAdmin(this._auth.currentUser) && !user.roles.admin){
       return Promise.reject({message: 'Nemôžte odstránit admin práva sám sebe'});
+    }
+
     return this.afs.collection('users').doc(user.id).set(user);
   }
 

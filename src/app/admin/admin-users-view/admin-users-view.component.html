@@ -28,15 +28,21 @@
 
     <div *ngIf="showForm" fxLayout='column'>
         <form [formGroup]="userForm" (ngSubmit)="saveUser()">   
-            <div *ngIf="!isEditing">
+            <div *ngIf="!isEditing" style="margin-bottom: 15px;">
                 <mat-form-field>
                     <mat-label for="username">Meno</mat-label>
                     <input matInput id="username" type="text" formControlName="username">
+                    <mat-error *ngIf="hasUsernameError()">
+                        {{getUsernameError()}}
+                    </mat-error>
                 </mat-form-field>
         
                 <mat-form-field>
                     <mat-label for="password">Heslo</mat-label>
                     <input matInput id="password" type="password" formControlName="password">
+                    <mat-error *ngIf="hasPasswordError()">
+                        {{getPasswordError()}}
+                    </mat-error>
                 </mat-form-field>
             </div>
 
@@ -48,7 +54,7 @@
                 </mat-select>
             </mat-form-field>
 
-            <button mat-raised-button color="primary" type="submit">Uložiť</button>
+            <button mat-raised-button [disabled]="isSaveDisabled()" color="primary" type="submit">Uložiť</button>
             <button mat-raised-button (click)="showForm = false">Zrušiť</button>
         </form>
     </div>

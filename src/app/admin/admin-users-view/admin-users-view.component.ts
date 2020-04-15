@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserModel, UserRole } from 'src/app/users/shared/user-model';
 import { UserService } from 'src/app/users/shared/user.service';
 import { AuthService } from 'src/app/auth/shared/auth.service';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -13,9 +13,17 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class AdminUsersViewComponent implements OnInit {
 
   userForm = new FormGroup({
-    username: new FormControl(''),
-    password: new FormControl(''),
-    role: new FormControl('')
+    username: new FormControl('',[
+      Validators.required,
+      Validators.minLength(4)
+    ]),
+    password: new FormControl('',[
+      Validators.required,
+      Validators.minLength(8),
+    ]),
+    role: new FormControl('',[
+      Validators.required
+    ])
   });
 
   showForm = false;
@@ -38,6 +46,66 @@ export class AdminUsersViewComponent implements OnInit {
     this._userService.readAll()
       .subscribe(data => this.dataSource = data);
   }
+
+  //----------Error matchers-----------//
+
+  private getUsernameControl(){
+    return this.userForm.get('username');
+  }
+
+  hasUsernameError(): boolean{
+    const control = this.getUsernameControl();
+    return control.hasError('required') || control.hasError('minlength');
+  }
+
+  getUsernameError(): string{
+    if(this.hasUsernameError()){
+      const control = this.getUsernameControl();
+      if(control.hasError('required'))
+        return 'Meno musí byť vyplnené';
+      else if(control.hasError('minlength')){
+        return 'Minimálna dĺžka mena sú 4 znaky';
+      }
+    }
+    return '';
+  }
+
+  private getPasswordControl(){
+    return this.userForm.get('password');
+  }
+
+  hasPasswordError(): boolean{
+    const control = this.getPasswordControl();
+    return control.hasError('required') || control.hasError('minlength');
+  }
+
+  getPasswordError(): string{
+    if(this.hasPasswordError()){
+      const control = this.getPasswordControl();
+      if(control.hasError('required'))
+        return 'Heslo musí byť vyplnené';
+      else if(control.hasError('minlength')){
+        return 'Minimálna dĺžka hesla je 8 znakov';
+      }
+    }
+    return '';
+  }
+
+  hasRoleError():boolean{
+    return this.userForm.get('role').hasError('required');
+  }
+
+  isSaveDisabled():boolean{
+    if(this.isEditing){
+      return this.hasRoleError();
+    }
+    else{
+      return this.hasPasswordError() || this.hasUsernameError() || this.hasRoleError();
+    }
+  }
+
+
+  //-----------Other stuff-----------//
 
   getRecord(row: UserModel){
     this.selectedRow = row;
@@ -66,6 +134,8 @@ export class AdminUsersViewComponent implements OnInit {
 
     let prom : Promise<any> = null;
     if(this.isEditing){
+      if(user.roles.admin === this.selectedRow.roles.admin)
+        return;
       user.id = this.selectedRow.id;
       user.email = this.selectedRow.email;
       user.name = this.selectedRow.name;

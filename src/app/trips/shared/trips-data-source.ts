@@ -32,7 +32,7 @@ export class TripsDataSource implements DataSource<TripModel> {
         this.tripsService.readTrips(date,filter,sortDirection,pageIndex,pageSize)
             .pipe(
                 catchError(() => of({trips: [],totalLength: 0})),
-                finalize(() => this.loadingSubject.next(false))
+                tap(() => this.loadingSubject.next(false))
             ).
             subscribe(collection =>{ 
                 this.tripsSubject.next(collection.trips),

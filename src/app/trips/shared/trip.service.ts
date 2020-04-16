@@ -12,10 +12,6 @@ const collectionName = 'trips';
 })
 export class TripService {
 
-  deleteTrip(row: TripModel) {
-   
-  }
-
   private _dateFilter: Date = new Date();
 
   get dateFilter(){
@@ -42,20 +38,26 @@ export class TripService {
     pageIndex: number, 
     pageSize: number) 
   :  Observable<TripEnumerable> {
-    return this._afs.collection<TripModel>(collectionName).valueChanges()
+    return this._afs.collection<TripModel>(collectionName).snapshotChanges()
       .pipe(
-        map(data => {
-          data.forEach(d => {
-            const fromUnknown = d.timeFrom as unknown;
+        map(val => {
+          return val.map(a => {
+            var trip: TripModel;
+            trip = a.payload.doc.data();
+            trip.id = a.payload.doc.id;
+            const fromUnknown = trip.timeFrom as unknown;
             const fromStamp = fromUnknown as firestore.Timestamp;
-            d.timeFrom = fromStamp.toDate();
+            trip.timeFrom = fromStamp.toDate();
             
-            const toUnknown = d.timeTo as unknown;
+            const toUnknown = trip.timeTo as unknown;
             const toStamp = toUnknown as firestore.Timestamp;
-            d.timeTo = toStamp.toDate();
+            trip.timeTo = toStamp.toDate();
+            return trip;
           })
-          var enumerable : TripEnumerable = {trips: data,totalLength: data.length};
-          return enumerable;
+        }),
+        map(data => {
+            var enumerable : TripEnumerable = {trips: data,totalLength: data.length};
+            return enumerable;
         })
       );
   
@@ -78,8 +80,12 @@ export class TripService {
     return of({trips: filteredAndSliced, totalLength: totalLength});*/
   }
 
-  async add(trip: TripModel): Promise<any>{
+  add(trip: TripModel): Promise<any>{
     return this._afs.collection<TripModel>(collectionName).add(trip);
+  }
+
+  deleteTrip(trip: TripModel) : Promise<void>{
+    return this._afs.collection(collectionName).doc(trip.id).delete();
   }
 }
 

@@ -129,13 +129,24 @@ export class CheckInViewComponent implements OnInit {
     const val = this.checkInForm.value;
     const from = this.getFromDate();  
     const to = this.getToDate();
+    let now = new Date();
+    now.setHours(now.getHours(),now.getMinutes(),0,0);
 
     if(to < from){
+      alert('Dátum a čas konca polovačky nemôže byť menší ako dátum a čas začiatku');
+      return;
+    }
+
+    if(from < now){
+      alert('Dátum a čas začiatku polovačky nemôže byť menší ako aktuálny dátum a čas');
       return;
     }
 
     let trip: TripModel = {
-      hunter: this._authService.currentUser,
+      hunter: {
+        id: this._authService.currentUser.id,
+        name: this._authService.currentUser.name
+      }, 
       location: val.location,
       timeFrom: from,
       timeTo: to,

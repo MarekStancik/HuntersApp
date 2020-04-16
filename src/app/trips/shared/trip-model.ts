@@ -1,5 +1,4 @@
 import { LocationModel } from 'src/app/locations/shared/location-model';
-import { UserModel } from 'src/app/users/shared/user-model';
 
 export interface HuntingCatch{
   animal: string;
@@ -9,7 +8,11 @@ export interface HuntingCatch{
 }
 
 export interface TripModel {
-    hunter: UserModel;
+    id?: string; 
+    hunter: {
+      id: string;
+      name: string;
+    };
     location: LocationModel;
     timeFrom: Date;
     timeTo: Date;

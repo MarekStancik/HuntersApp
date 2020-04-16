@@ -24,7 +24,9 @@ export class TripService {
     this._dateFilter = date;
   }
 
-  constructor(private _afs: AngularFirestore) { }
+  constructor(private _afs: AngularFirestore) { 
+    this._dateFilter.setHours(0,0,0,0);
+  }
 
   private equalOnlyDate(a: Date,b : Date): boolean{
     var d = new Date(a);

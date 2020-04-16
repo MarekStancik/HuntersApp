@@ -22,8 +22,6 @@ export class TripListComponent implements OnInit,AfterViewInit {
 
   set filter(val:string){
     this._filter = val.trim().toLowerCase();
-    this.paginator.firstPage();
-    this.loadTripsPage();
   }
 
   get filter(){
@@ -36,8 +34,7 @@ export class TripListComponent implements OnInit,AfterViewInit {
 
   set selectedDate(date :Date){
     this.tripsService.dateFilter = date;
-    this.paginator.firstPage();
-    this.loadTripsPage();
+    this.filterRecords();
   }
 
   constructor(private tripsService: TripService,
@@ -49,6 +46,11 @@ export class TripListComponent implements OnInit,AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.paginator.page
+    .pipe(
+        tap(() => this.loadTripsPage())
+    )
+    .subscribe();
   }
 
   loadTripsPage(): void {
@@ -69,8 +71,12 @@ export class TripListComponent implements OnInit,AfterViewInit {
   deleteRecord(row: TripModel){
     if(this.canEdit(row) && confirm("Určite chcete vymazať svoj záznam?")){
       this.tripsService.deleteTrip(row);
-      this.loadTripsPage();
     }
+  }
+
+  filterRecords(){
+    this.paginator.firstPage();
+    this.loadTripsPage();
   }
 
   private toTimeStr(date: Date): string{

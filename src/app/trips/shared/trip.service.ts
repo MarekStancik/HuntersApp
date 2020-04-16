@@ -38,8 +38,11 @@ export class TripService {
     pageIndex: number, 
     pageSize: number) 
   :  Observable<TripEnumerable> {
+    let endDate = new Date(date);
+    endDate.setDate(endDate.getDate() + 1);
+    
     return this._afs.collection<TripModel>(collectionName,query => 
-      query.where('timeFrom','>=',date).orderBy('timeFrom')
+      query.where('timeFrom','>=',date).where('timeFrom','<',endDate).orderBy('timeFrom')
     ).snapshotChanges()
       .pipe(
         map(val => {
@@ -58,28 +61,19 @@ export class TripService {
           })
         }),
         map(data => {
-            var enumerable : TripEnumerable = {trips: data,totalLength: data.length};
+          const pageStart = pageIndex * pageSize;
+          const filtered = data
+          .filter(d =>{
+            return this.equalOnlyDate(d.timeFrom,date) && 
+                (d.hunter.name.toLowerCase().includes(filter) || d.location.name.toLowerCase().includes(filter))
+          })
+
+          const totalLength = filtered.length;
+          const filteredAndSliced = filtered.slice(pageStart,pageStart + pageSize);
+            var enumerable : TripEnumerable = {trips: filteredAndSliced,totalLength: totalLength};
             return enumerable;
         })
       );
-  
-   /* const pageStart = pageIndex * pageSize;
-    const filtered = this.collection
-    .filter(trip =>{
-      console.log(trip);
-       
-      return (this.equalOnlyDate(trip.timeTo,date) || this.equalOnlyDate(trip.timeFrom,date))
-      && trip.hunter.name.toLowerCase().includes(filter) //Filter by filter
-    })
-    .sort((a,b) =>{
-      return a.hunter.name && b.hunter.name ? a.hunter.name.localeCompare(b.hunter.name) : 0;
-    });
-
-    const totalLength = filtered.length;
-    const filteredAndSliced = filtered.slice(pageStart,pageStart + pageSize);
-
-    this._dateFilter = date;
-    return of({trips: filteredAndSliced, totalLength: totalLength});*/
   }
 
   add(trip: TripModel): Promise<any>{

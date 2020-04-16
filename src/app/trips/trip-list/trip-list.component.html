@@ -7,7 +7,7 @@
         <div fxLayout="row wrap">
             <mat-form-field style="margin-right: 20px;">
                 <mat-label>Filter</mat-label>
-                <input matInput [(ngModel)]="filter">
+                <input placeholder="Meno/Lokácia" matInput [(ngModel)]="filter">
             </mat-form-field>
             
             <mat-form-field>
@@ -18,10 +18,10 @@
             </mat-form-field>
         </div>
         
-        <mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+        <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
         
             <ng-container matColumnDef="locationName">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Lokácia </mat-header-cell>
+                <mat-header-cell *matHeaderCellDef> Lokácia </mat-header-cell>
                 <mat-cell *matCellDef="let element"> 
                     <span class="mobile-label">Lokácia: </span>
                     {{element.location.name}} 
@@ -29,7 +29,7 @@
             </ng-container>
             
             <ng-container matColumnDef="hunterName">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Polovník </mat-header-cell>
+                <mat-header-cell *matHeaderCellDef> Polovník </mat-header-cell>
                 <mat-cell *matCellDef="let element"> 
                     <span class="mobile-label">Polovník: </span>
                     {{element.hunter.name}} 
@@ -37,7 +37,7 @@
             </ng-container>
             
             <ng-container matColumnDef="hunterHost">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Hosť </mat-header-cell>
+                <mat-header-cell *matHeaderCellDef> Hosť </mat-header-cell>
                 <mat-cell *matCellDef="let element"> 
                     <span class="mobile-label"> Hosť: </span>
                     {{element.guest}} 
@@ -45,7 +45,7 @@
             </ng-container>
 
             <ng-container matColumnDef="time">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Dátum a Čas</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef>Dátum a Čas</mat-header-cell>
                 <mat-cell *matCellDef="let element"> 
                     <span class="mobile-label">Dátum a čas: </span>
                     {{asDateString(element)}}

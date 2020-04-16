@@ -25,11 +25,11 @@ export class TripsDataSource implements DataSource<TripModel> {
         this.countSubject.complete();
     }
 
-    loadTrips(date: Date,filter: string,sortDirection = "asc",pageIndex = 0,pageSize = 5) {
+    loadTrips(date: Date,filter: string,pageIndex = 0,pageSize = 5) {
 
         this.loadingSubject.next(true);
 
-        this.tripsService.readTrips(date,filter,sortDirection,pageIndex,pageSize)
+        this.tripsService.readTrips(date,filter,pageIndex,pageSize)
             .pipe(
                 catchError(() => of({trips: [],totalLength: 0})),
                 tap(() => this.loadingSubject.next(false))

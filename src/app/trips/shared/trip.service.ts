@@ -32,13 +32,15 @@ export class TripService {
     return c.valueOf() === d.valueOf();
   }
 
-  readTrips(date: Date, 
-    filter: string, 
-    sortDirection: string, 
+  readTrips(
+    date: Date, 
+    filter: string,
     pageIndex: number, 
     pageSize: number) 
   :  Observable<TripEnumerable> {
-    return this._afs.collection<TripModel>(collectionName).snapshotChanges()
+    return this._afs.collection<TripModel>(collectionName,query => 
+      query.where('timeFrom','>=',date).orderBy('timeFrom')
+    ).snapshotChanges()
       .pipe(
         map(val => {
           return val.map(a => {

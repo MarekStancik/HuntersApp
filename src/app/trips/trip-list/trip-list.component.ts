@@ -16,7 +16,6 @@ import { tap } from 'rxjs/operators';
 export class TripListComponent implements OnInit,AfterViewInit {
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-  @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   selectedRow: TripModel;
   private _filter: string= '';
@@ -50,18 +49,10 @@ export class TripListComponent implements OnInit,AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-
-    this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
-        
-    merge(this.sort.sortChange, this.paginator.page)
-        .pipe(
-            tap(() => this.loadTripsPage())
-        )
-        .subscribe();
   }
 
   loadTripsPage(): void {
-    this.dataSource.loadTrips(this.selectedDate,this.filter,this.sort.direction, this.paginator.pageIndex, this.paginator.pageSize);
+    this.dataSource.loadTrips(this.selectedDate,this.filter, this.paginator.pageIndex, this.paginator.pageSize);
   }
 
   displayedColumns: string[] = [

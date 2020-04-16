@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 import { TripModel } from './trip-model';
 import { Observable, of } from 'rxjs';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { map } from 'rxjs/operators';
+import { firestore } from 'firebase';
+
+const collectionName = 'trips';
 
 @Injectable({
   providedIn: 'root'
@@ -8,9 +13,7 @@ import { Observable, of } from 'rxjs';
 export class TripService {
 
   deleteTrip(row: TripModel) {
-    const index = this.collection.indexOf(row);
-    if(index > -1)
-      this.collection.splice(index,1);      
+   
   }
 
   private _dateFilter: Date = new Date();
@@ -22,6 +25,8 @@ export class TripService {
   set dateFilter(date: Date){
     this._dateFilter = date;
   }
+
+  constructor(private _afs: AngularFirestore) { }
 
   private equalOnlyDate(a: Date,b : Date): boolean{
     var d = new Date(a);
@@ -37,7 +42,24 @@ export class TripService {
     pageIndex: number, 
     pageSize: number) 
   :  Observable<TripEnumerable> {
-    const pageStart = pageIndex * pageSize;
+    return this._afs.collection<TripModel>(collectionName).valueChanges()
+      .pipe(
+        map(data => {
+          data.forEach(d => {
+            const fromUnknown = d.timeFrom as unknown;
+            const fromStamp = fromUnknown as firestore.Timestamp;
+            d.timeFrom = fromStamp.toDate();
+            
+            const toUnknown = d.timeTo as unknown;
+            const toStamp = toUnknown as firestore.Timestamp;
+            d.timeTo = toStamp.toDate();
+          })
+          var enumerable : TripEnumerable = {trips: data,totalLength: data.length};
+          return enumerable;
+        })
+      );
+  
+   /* const pageStart = pageIndex * pageSize;
     const filtered = this.collection
     .filter(trip =>{
       console.log(trip);
@@ -53,16 +75,11 @@ export class TripService {
     const filteredAndSliced = filtered.slice(pageStart,pageStart + pageSize);
 
     this._dateFilter = date;
-    return of({trips: filteredAndSliced, totalLength: totalLength});
+    return of({trips: filteredAndSliced, totalLength: totalLength});*/
   }
 
-  collection: TripModel[] = [];
-
-  constructor() { }
-
-  add(trip: TripModel): Observable<TripModel>{
-    this.collection.push(trip);
-    return of(trip);
+  async add(trip: TripModel): Promise<any>{
+    return this._afs.collection<TripModel>(collectionName).add(trip);
   }
 }
 

@@ -2,7 +2,7 @@ import { LocationModel } from 'src/app/locations/shared/location-model';
 
 export interface HuntingCatch{
   animal: string;
-  animalGender: AnimalGender;
+  gender: AnimalGender;
   reasonOfDeath: ReasonOfDeath;
   markNumber: number;
 }

@@ -1,0 +1,11 @@
+<div *ngIf="catches" fxLayout="column" fxLayoutAlign="center center">
+    <h3>Počet úlovkov: {{catches.length}}</h3>
+    <div fxLayout="row wrap">
+        <div *ngFor="let c of catches" fxLayout="column" fxLayoutAlign="center center" fxFill class="mat-elevation-z2 tile">
+            <span>Názov zvery: {{c.animal}}</span>
+            <span>Pohlavie zvery: {{c.gender}}</span>
+            <span>Dôvod úmrtia: {{c.reasonOfDeath}}</span>
+            <span>Číslo značky: {{c.markNumber}}</span>
+        </div>
+    </div>
+</div>

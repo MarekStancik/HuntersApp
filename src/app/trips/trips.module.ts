@@ -6,13 +6,15 @@ import { TripListComponent } from './trip-list/trip-list.component';
 import { SharedModule } from '../shared.module';
 import { EditRecordViewComponent } from './edit-record-view/edit-record-view.component';
 import { CheckInViewComponent } from './check-in-view/check-in-view.component';
+import { CatchesListComponent } from './catches-list/catches-list.component';
 
 
 @NgModule({
   declarations: [
     TripListComponent,
     CheckInViewComponent,
-    EditRecordViewComponent
+    EditRecordViewComponent,
+    CatchesListComponent
   ],
   imports: [
     CommonModule,

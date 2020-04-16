@@ -65,7 +65,7 @@ export class TripListComponent implements OnInit,AfterViewInit {
 
   getRecord(row: TripModel){
     this.selectedRow = row;
-    //this.selected.emit(row);
+    this.tripsService.editedRecord = row;
   }
 
   deleteRecord(row: TripModel){
@@ -110,9 +110,5 @@ export class TripListComponent implements OnInit,AfterViewInit {
   canEdit(row: TripModel):boolean{
     const user = this._authService.currentUser;
     return row && user && (row.hunter === user || this._authService.isAdmin(user));
-  }
-
-  catchToString(c: HuntingCatch): string {
-    return `Názov zvery: ${c.animal} Pohlavie zvery: ${c.animalGender} Dôvod úmrtia: ${c.reasonOfDeath} Číslo značky: ${c.markNumber}`;
   }
 }

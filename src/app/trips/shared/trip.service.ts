@@ -14,6 +14,8 @@ export class TripService {
 
   private _dateFilter: Date = new Date();
 
+  editedRecord: TripModel = null;
+
   get dateFilter(){
     return this._dateFilter;
   }

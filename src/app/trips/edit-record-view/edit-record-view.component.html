@@ -3,17 +3,15 @@
     <form [formGroup]="editForm" (ngSubmit)="save()" class="edit-form">
 
         <mat-form-field>
-            <mat-select formControlName="location" placeholder="Lokácia">
-                <mat-option *ngFor="let loc of locations$ | async" [value]="loc">
-                  {{loc.name}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-
-        <mat-form-field>
             <mat-label for="guest">Hosť</mat-label>
             <input matInput id="guest" name="guest" type="text" formControlName="guest">
         </mat-form-field>
+
+        <mat-form-field>
+            <mat-label for="huntingType">Spôsob polovania</mat-label>
+            <input matInput id="huntingType" name="huntingType" type="text" formControlName="huntingType">
+        </mat-form-field>
+
         <mat-label style="margin-bottom: 5px;">Od:</mat-label>
         <mat-form-field>
             <mat-label>Dátum</mat-label>
@@ -36,13 +34,8 @@
             <mat-label>Čas</mat-label>
             <input matInput type="time" formControlName="timeTo">
         </mat-form-field>
-
-        <mat-form-field>
-            <mat-label for="huntingType">Spôsob polovania</mat-label>
-            <input matInput id="huntingType" name="huntingType" type="text" formControlName="huntingType">
-        </mat-form-field>
-
-        <mat-form-field>
+        
+        <!--<mat-form-field>
             <mat-label for="animalGender">Pohlavie zvieraťa</mat-label>
             <input matInput id="animalGender" name="animalGender" type="text" formControlName="animalGender">
         </mat-form-field>
@@ -60,12 +53,18 @@
         <mat-form-field>
             <mat-label for="markNumber">Číslo značky</mat-label>
             <input matInput id="markNumber" name="markNumber" type="number" formControlName="markNumber">
-        </mat-form-field>
+        </mat-form-field> -->
 
         <mat-form-field>
             <mat-label for="note">Poznámka</mat-label>
             <input matInput id="note" name="note" type="text" formControlName="note">
         </mat-form-field>
+
+        <div fxLayout="column" fxLayoutAlign="center center" class="mat-elevation-z2" style="margin-bottom: 10px;">
+            <h3>Úlovky</h3>
+            <app-catches-list [catches]="record.catches"></app-catches-list>
+            <button mat-button fxFill>Pridať úlovok</button>
+        </div>
 
         <button type="submit" mat-raised-button color="primary" fxFill>Zapísať</button>
     </form>

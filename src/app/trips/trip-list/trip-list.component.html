@@ -86,7 +86,7 @@
             <div *ngIf="canEdit(selectedRow)">
                 <button mat-raised-button 
                     color="accent" 
-                    [routerLink]="['/edit']" 
+                    [routerLink]="['edit']" 
                     routerLinkActive="router-link-active" 
                     style="margin-right: 10px;">Upraviť</button>
                 <button mat-raised-button color="warn" (click)="deleteRecord(selectedRow)">Vymazať</button>
@@ -94,12 +94,7 @@
         </div>
 
         <div *ngIf="selectedRow && selectedRow.catches">
-            <mat-list>
-                <mat-list-item>Počet úlovkov: {{selectedRow.catches.length}}</mat-list-item>
-                <mat-list-item *ngFor="let c of selectedRow.catches">
-                    {{catchToString(c)}}
-                </mat-list-item>
-            </mat-list>
+            <app-catches-list [catches]="selectedRow.catches"></app-catches-list>
         </div>
     </div>
 </div>

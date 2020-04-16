@@ -4,6 +4,8 @@ import { TripService } from '../shared/trip.service';
 import { Observable } from 'rxjs';
 import { LocationModel } from '../../locations/shared/location-model';
 import { LocationService } from '../../locations/shared/location.service';
+import { Router } from '@angular/router';
+import { TripModel } from '../shared/trip-model';
 
 @Component({
   selector: 'app-edit-record-view',
@@ -12,8 +14,9 @@ import { LocationService } from '../../locations/shared/location.service';
 })
 export class EditRecordViewComponent implements OnInit {
 
+  record: TripModel;
+
   editForm = new FormGroup({
-      location: new FormControl(''),
       huntingType: new FormControl(''),
       guest: new FormControl(''),
       timeFrom: new FormControl(''),
@@ -27,12 +30,22 @@ export class EditRecordViewComponent implements OnInit {
       note: new FormControl(''),
   });
 
-  locations$ : Observable<LocationModel[]>;
-
-  constructor(private tripService: TripService,private locService:LocationService) { }
+  constructor(
+    private _tripService: TripService,
+    private _router: Router) { }
 
   ngOnInit(): void {
-    this.locations$ = this.locService.readAll();
+    if(this._tripService.editedRecord === null){
+      this._router.navigate(['trips']);
+      return;
+    }
+    this.record = this._tripService.editedRecord;
+
+    this.editForm.patchValue({
+      guest: this.record.guest,
+      dateFrom: this.record.timeFrom,
+      dateTo: this.record.timeTo
+    });
   }
 
   save(): void{

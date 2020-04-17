@@ -1,0 +1,24 @@
+
+<form [formGroup]="form" (ngSubmit)="save()">
+    <mat-form-field>
+        <mat-label for="animal">Zviera</mat-label>
+        <input matInput id="animal" name="animal" type="text" formControlName="animal">
+    </mat-form-field>
+    
+    <mat-form-field>
+        <mat-label for="gender">Pohlavie zvieraťa</mat-label>
+        <input matInput id="gender" name="gender" type="text" formControlName="gender">
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label for="reasonOfDeath">Dôvod úhynu</mat-label>
+        <input matInput id="reasonOfDeath" name="reasonOfDeath" type="text" formControlName="reasonOfDeath">
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label for="markNumber">Číslo značky</mat-label>
+        <input matInput id="markNumber" name="markNumber" type="number" formControlName="markNumber">
+    </mat-form-field>
+
+    <button [disabled]="hasErrors()" type="submit" mat-raised-button color="primary">Pridať</button>
+</form>

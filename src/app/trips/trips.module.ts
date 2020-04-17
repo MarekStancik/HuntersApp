@@ -7,6 +7,7 @@ import { SharedModule } from '../shared.module';
 import { EditRecordViewComponent } from './edit-record-view/edit-record-view.component';
 import { CheckInViewComponent } from './check-in-view/check-in-view.component';
 import { CatchesListComponent } from './catches-list/catches-list.component';
+import { CatchDialogComponent } from './catch-dialog/catch-dialog.component';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { CatchesListComponent } from './catches-list/catches-list.component';
     TripListComponent,
     CheckInViewComponent,
     EditRecordViewComponent,
-    CatchesListComponent
+    CatchesListComponent,
+    CatchDialogComponent
   ],
   imports: [
     CommonModule,

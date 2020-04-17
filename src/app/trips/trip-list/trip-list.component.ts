@@ -7,6 +7,7 @@ import { TripService } from '../shared/trip.service';
 import { AuthService } from 'src/app/auth/shared/auth.service';
 import { merge } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { TripsUtility } from '../shared/trips-utility';
 
 @Component({
   selector: 'app-trip-list',
@@ -79,30 +80,14 @@ export class TripListComponent implements OnInit,AfterViewInit {
     this.loadTripsPage();
   }
 
-  private toTimeStr(date: Date): string{
-    let rval = '';
-    if(date.getHours() < 10)
-      rval = '0' + date.getHours();
-    else
-      rval += date.getHours();
-
-    rval += ':';
-
-    if(date.getMinutes() < 10)
-      rval += '0' + date.getMinutes();
-    else
-      rval += date.getMinutes();      
-    return rval;
-  }
-
   asDateString(row: TripModel):string{
     if(row){
       const date = row.timeFrom;
       const date2 = row.timeTo;
       if(date.toLocaleDateString().localeCompare(date2.toLocaleDateString()) === 0){
-        return `${date.toLocaleDateString()} ${this.toTimeStr(date)} - ${this.toTimeStr(date2)}`;
+        return `${date.toLocaleDateString()} ${TripsUtility.dateToTimeStr(date)} - ${TripsUtility.dateToTimeStr(date2)}`;
       }
-      return  `${date.toLocaleDateString()} ${this.toTimeStr(date)} - ${date2.toLocaleDateString()} ${this.toTimeStr(date2)}`;
+      return  `${date.toLocaleDateString()} ${TripsUtility.dateToTimeStr(date)} - ${date2.toLocaleDateString()} ${TripsUtility.dateToTimeStr(date2)}`;
     }
     return '';
   }

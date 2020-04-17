@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { map } from 'rxjs/operators';
 import { firestore } from 'firebase';
+import { TripsUtility } from './trips-utility';
 
 const collectionName = 'trips';
 
@@ -80,12 +81,44 @@ export class TripService {
       );
   }
 
+  
+  private validateAddDuration(from: Date,to: Date): string{
+    let now = new Date();
+    now.setHours(now.getHours(),now.getMinutes(),0,0);
+
+    if(from < now){
+      return 'Dátum a čas začiatku polovačky nemôže byť menší ako aktuálny dátum a čas';
+    }
+    return this.validateUpdateDuration(from,to);
+  }
+
+  private validateUpdateDuration(from: Date,to: Date): string{
+    if(to < from){
+      return 'Dátum a čas konca polovačky nemôže byť menší ako dátum a čas začiatku';
+    }
+    return '';
+  }
+
+
   add(trip: TripModel): Promise<any>{
+    const errorMsg = this.validateAddDuration(trip.timeFrom,trip.timeTo);
+    if(errorMsg){
+      return Promise.reject({message: errorMsg});
+    }
+    
     return this._afs.collection<TripModel>(collectionName).add(trip);
   }
 
   deleteTrip(trip: TripModel) : Promise<void>{
     return this._afs.collection(collectionName).doc(trip.id).delete();
+  }
+
+  update(trip: TripModel) {
+    const errorMsg = this.validateUpdateDuration(trip.timeFrom,trip.timeTo);
+    if(errorMsg){
+      return Promise.reject({message: errorMsg});
+    }
+    return this._afs.collection(collectionName).doc(trip.id).set(trip,{merge: true});
   }
 }
 

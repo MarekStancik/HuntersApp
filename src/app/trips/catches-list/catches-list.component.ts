@@ -14,8 +14,4 @@ export class CatchesListComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
-  catchToString(c: HuntingCatch): string {
-    return `Názov zvery: ${c.animal} Pohlavie zvery: ${c.gender} Dôvod úmrtia: ${c.reasonOfDeath} Číslo značky: ${c.markNumber}`;
-  }
 }

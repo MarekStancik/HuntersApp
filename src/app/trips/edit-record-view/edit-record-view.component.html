@@ -1,4 +1,4 @@
-<div fxLayout="column" fxLayoutAlign="center center">
+<div fxLayout="column" fxLayoutAlign="center center" *ngIf="record">
     <h2><p>Zmena zápisu</h2>
     <form [formGroup]="editForm" (ngSubmit)="save()" class="edit-form">
 
@@ -35,26 +35,6 @@
             <input matInput type="time" formControlName="timeTo">
         </mat-form-field>
         
-        <!--<mat-form-field>
-            <mat-label for="animalGender">Pohlavie zvieraťa</mat-label>
-            <input matInput id="animalGender" name="animalGender" type="text" formControlName="animalGender">
-        </mat-form-field>
-        
-        <mat-form-field>
-            <mat-label for="animalCount">Počet zvierat</mat-label>
-            <input matInput id="animalCount" name="animalCount" type="number" formControlName="animalCount">
-        </mat-form-field>
-
-        <mat-form-field>
-            <mat-label for="reasonOfDeath">Dôvod úhynu</mat-label>
-            <input matInput id="reasonOfDeath" name="reasonOfDeath" type="text" formControlName="reasonOfDeath">
-        </mat-form-field>
-
-        <mat-form-field>
-            <mat-label for="markNumber">Číslo značky</mat-label>
-            <input matInput id="markNumber" name="markNumber" type="number" formControlName="markNumber">
-        </mat-form-field> -->
-
         <mat-form-field>
             <mat-label for="note">Poznámka</mat-label>
             <input matInput id="note" name="note" type="text" formControlName="note">
@@ -63,10 +43,10 @@
         <div fxLayout="column" fxLayoutAlign="center center" class="mat-elevation-z2" style="margin-bottom: 10px;">
             <h3>Úlovky</h3>
             <app-catches-list [catches]="record.catches"></app-catches-list>
-            <button mat-button fxFill>Pridať úlovok</button>
+            <button mat-button type="button" fxFill (click)="openCatchDialog()">Pridať úlovok</button>
         </div>
 
-        <button type="submit" mat-raised-button color="primary" fxFill>Zapísať</button>
+        <button [disabled]="hasErrors()" type="submit" mat-raised-button color="primary" fxFill>Zapísať</button>
     </form>
     <hr>
 </div>

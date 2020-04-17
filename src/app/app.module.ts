@@ -12,7 +12,8 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from 'src/environments/environment';
 import { PublicModule } from './public/public.module';
 import { AuthService } from './auth/shared/auth.service';
-import { AuthModule } from './auth/auth.module';
+import { MatDialogModule } from '@angular/material/dialog';
+import { CatchDialogComponent } from './trips/catch-dialog/catch-dialog.component';
 
 @NgModule({
   declarations: [
@@ -26,11 +27,15 @@ import { AuthModule } from './auth/auth.module';
     AngularFirestoreModule, 
     AngularFireAuthModule,
     MatSnackBarModule,
+    MatDialogModule,
     PublicModule,
     SharedModule.forRoot()
   ],
   exports:[
     
+  ],
+  entryComponents:[
+    CatchDialogComponent
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]

@@ -1,45 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators} from '@angular/forms';
 import { TripService } from '../shared/trip.service';
 import { LocationModel } from '../../locations/shared/location-model';
 import { Observable } from 'rxjs';
 import { LocationService } from '../../locations/shared/location.service';
 import { TripModel } from '../shared/trip-model';
-import { catchError, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { AuthService } from '../../auth/shared/auth.service';
-import { Time } from '@angular/common';
-
-function compare(a: Date,b: Date):number{
-  let ac = new Date(a);
-  let bc = new Date(b);
-  ac.setHours(0,0,0,0);
-  bc.setHours(0,0,0,0);
-
-  if(ac < bc)
-    return -1;
-  else if(ac > bc)
-    return 1;
-  return 0;
-}
-
-function minDateValidator(date: Date): ValidatorFn{
-  return (control: AbstractControl): {[key: string]: any} | null => {
-    if(compare(control.value,date) === -1){
-      return {'minDate': {value: control.value}};
-    }
-    return null;
-  };
-}
-
-function timeFromFormControl(val: string): Time{
-  if(val){
-    return {hours:parseInt(val.substr(0,2)),minutes: parseInt(val.substr(3,2))}; 
-  }
-  return {hours:0,minutes: 0};
-}
-
+import { TripsUtility } from '../shared/trips-utility';
 
 @Component({
   selector: 'app-check-in-view',
@@ -64,7 +33,7 @@ export class CheckInViewComponent implements OnInit {
     ]),
     dateFrom: new FormControl(new Date(),[
       Validators.required,
-      minDateValidator(new Date())
+      TripsUtility.minDateValidator(new Date())
     ]),
     dateTo: new FormControl(new Date(),[
       Validators.required
@@ -82,7 +51,7 @@ export class CheckInViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.locations$ = this.locService.readAll();
-    if(compare(this.tripService.dateFilter,new Date()) === 1){
+    if(TripsUtility.compare(this.tripService.dateFilter,new Date()) === 1){
       this.checkInForm.setControl('dateFrom',new FormControl(this.tripService.dateFilter));
       this.checkInForm.setControl('dateTo',new FormControl(this.tripService.dateFilter));
     }
@@ -96,7 +65,7 @@ export class CheckInViewComponent implements OnInit {
   private updateDateToValidator(val: Date){
     this.checkInForm.get('dateTo').setValidators([
       Validators.required,
-      minDateValidator(val)
+      TripsUtility.minDateValidator(val)
     ]);
     this.checkInForm.get('dateTo').updateValueAndValidity();
   }
@@ -106,19 +75,11 @@ export class CheckInViewComponent implements OnInit {
   }
 
   getFromDate(): Date{
-    const val = this.checkInForm.value;
-    const from = new Date(val.dateFrom);    
-    const fromTime = timeFromFormControl(val.timeFrom);
-    from.setHours(fromTime.hours,fromTime.minutes,0,0);
-    return from;
+    return TripsUtility.dateFromControlValue(this.checkInForm.value,'dateFrom','timeFrom');
   }
 
   getToDate(): Date{
-    const val = this.checkInForm.value;
-    const to = new Date(val.dateTo);
-    const toTime = timeFromFormControl(val.timeTo);
-    to.setHours(toTime.hours,toTime.minutes,0,0);
-    return to;
+    return TripsUtility.dateFromControlValue(this.checkInForm.value,'dateTo','timeTo');
   }
 
   save(){
@@ -126,21 +87,10 @@ export class CheckInViewComponent implements OnInit {
       alert('Musíte sa Prihlásiť, aby ste sa mohli zapísať');
       return;
     }
+
     const val = this.checkInForm.value;
     const from = this.getFromDate();  
     const to = this.getToDate();
-    let now = new Date();
-    now.setHours(now.getHours(),now.getMinutes(),0,0);
-
-    if(to < from){
-      alert('Dátum a čas konca polovačky nemôže byť menší ako dátum a čas začiatku');
-      return;
-    }
-
-    if(from < now){
-      alert('Dátum a čas začiatku polovačky nemôže byť menší ako aktuálny dátum a čas');
-      return;
-    }
 
     let trip: TripModel = {
       hunter: {

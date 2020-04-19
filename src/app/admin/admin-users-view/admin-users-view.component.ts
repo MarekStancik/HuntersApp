@@ -142,7 +142,7 @@ export class AdminUsersViewComponent implements OnInit {
       prom = this._userService.updateUser(user);
     }
     else{
-      prom = this._authService.addUser(user,val.password);
+      prom = this._userService.createUser(user,val.password);
     }
 
     prom.then(()=> {
@@ -166,5 +166,22 @@ export class AdminUsersViewComponent implements OnInit {
     this.showForm = this.isEditing = true;
     this.userForm.setControl('username',new FormControl(this.selectedRow.name));
     this.userForm.setControl('role',new FormControl(this.getRoleForUser(this.selectedRow)));
+  }
+
+  deleteUser(){
+    if(!this.selectedRow){
+      alert('Musíte vybrať užívateľa ktorého chcete vymazať');
+      return;
+    }
+
+
+    if(confirm(`Ste si istý že chcete vymazať užívateľa: '${this.selectedRow.name}' ?`)){
+      this._userService.deleteUser(this.selectedRow.id)
+      .then(() =>{ 
+        this._snack.open(`Užívateĺ '${this.selectedRow.name}' bol vymazaný`,'OK',{duration: 2000})
+        this.selectedRow = null;
+      })
+      .catch(err => alert(err.message));
+    }
   }
 }

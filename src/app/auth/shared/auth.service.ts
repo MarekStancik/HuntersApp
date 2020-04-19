@@ -35,7 +35,7 @@ export class AuthService {
       this.user$.subscribe(data => this._currentUser = data);
   }
 
-  private userNameToEmail(username: string) : string
+  userNameToEmail(username: string) : string
   {
     return username.replace(/\s+/g,'.').normalize('NFD').replace(/[^a-zA-Z.]/g, '').toLowerCase() + '@mockemail.com';
   }
@@ -47,45 +47,6 @@ export class AuthService {
 
   signOut():Promise<void>{
     return this.afAuth.signOut();
-  }
-
-  isValidUser(user: UserModel): boolean{
-    return user && user.name && user.name.length >= 4 && (user.roles.hunter || user.roles.admin);
-  }
-
-  isValidPass(pass: string):boolean{
-    return pass && pass.length >= 8;
-  }
-
-  addUser(newUser: UserModel,pass: string):Promise<auth.UserCredential>{
-    if(!this.isValidUser(newUser)){
-      return Promise.reject({message: 'Užívateľ nemá priradené povinné atribúty'});
-    }
-
-    if(!this.isValidPass(pass)){
-      return Promise.reject({message: 'Heslo užívateľa nespĺňa požiadavky'});
-    }
-    
-    if(!this.currentUser || !this.isAdmin(this.currentUser)){
-      return Promise.reject({message: 'Užívateľov môže pridávať len admin'});
-    }
-
-    const emailMock = this.userNameToEmail(newUser.name);
-    return new Promise((resolve,reject) => {
-      this.afAuth.createUserWithEmailAndPassword(emailMock,pass)
-      .then(ref => { 
-        const user: UserModel = {
-          id: ref.user.uid,
-          email: emailMock,
-          name: newUser.name,
-          roles: newUser.roles
-        };
-        this.afs.doc(`users/${ref.user.uid}`).set(user)
-          .then(() => resolve(ref))
-          .catch(err => reject(err));
-      })
-      .catch(err => reject(err))
-    });
   }
 
   //-----------------Authorization----------------//

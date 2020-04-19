@@ -63,7 +63,7 @@
         <button mat-raised-button color="primary" (click)="showForAdding()">Pridať</button>
         <span fxFlex></span>
         <div *ngIf="selectedRow" fxLayout="row">
-            <button mat-raised-button color="warn">Vymazať</button>
+            <button mat-raised-button color="warn" (click)="deleteUser()">Vymazať</button>
             <button mat-raised-button color="accent" (click)="showForEdit()">Zmeniť</button>
         </div>
     </div>

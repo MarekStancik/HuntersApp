@@ -1,8 +1,36 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write: if false;
+
+    match /users/{userId}{
+      allow read: if getRole('admin') || isOwner(userId);
+      allow write: if getRole('admin');
+    }
+
+    match /trips/{tripId}{
+      allow read: if isLoggedIn();
+      allow write:  if getRole('admin') || isTripOwner(request.resource.data);
+    }
+
+    match /locations/{locId}{
+      allow read: if isLoggedIn();
+      allow write: if getRole('admin');
+    }
+
+    function isTripOwner(trip){
+      return request.auth.uid == trip.hunter.id;
+    }
+
+    function isOwner(userId){
+    	return request.auth.uid == userId;
+    }
+    
+    function getRole(role){
+    	return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.roles[role];
+    }
+
+    function isLoggedIn(){
+      return request.auth != null;
     }
   }
 }

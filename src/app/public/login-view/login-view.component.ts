@@ -32,8 +32,6 @@ export class LoginViewComponent implements OnInit {
     this.isLogging = true;
     this._authService.signIn(this.name,this.password)
       .then(() => {
-        console.log('success');
-        
         this.closeSuccess();
       })
       .catch(err => {

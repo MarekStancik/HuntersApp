@@ -104,12 +104,12 @@ export class CheckInViewComponent implements OnInit {
     };
     
     this.tripService.add(trip)
-      .catch(err => alert(err.message))
       .then(data => {
         if(data !== null){
           this._snackBar.open('Záznam uložený','OK',{duration: 2000});
           this.router.navigate(['']);
         }
       })
+      .catch(err => alert(err.message))
   }
 }

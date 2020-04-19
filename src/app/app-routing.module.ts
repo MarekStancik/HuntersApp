@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AdminGuard } from './guards/admin.guard';
 import { LoginGuard } from './guards/login.guard';
 import { LoginViewComponent } from './public/login-view/login-view.component';
+import { LogoutGuard } from './guards/logout.guard';
 
 
 const routes: Routes = [
@@ -23,7 +24,8 @@ const routes: Routes = [
   },
   {
     path: "login",
-    component: LoginViewComponent
+    component: LoginViewComponent,
+    canActivate: [LogoutGuard]
   },
   {
     path: '**',
